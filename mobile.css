@@ -1070,7 +1070,11 @@
 
   .hero-alerts {
     margin: 20px 0 16px;
-    padding: 0 clamp(16px, 5vw, 24px);
+    display: flex;
+  }
+
+  .hero-alerts .budget-alerts {
+    width: 100%;
   }
   
   .expense-action-btn:active {
