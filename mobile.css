@@ -200,6 +200,8 @@
   .menu-toggle {
     display: flex !important;
     -webkit-tap-highlight-color: transparent;
+    top: 8px;
+    left: 8px;
   }
   
   .close-menu {
@@ -213,11 +215,12 @@
     top: 0;
     bottom: 0;
     width: 100%;
-    max-width: 85%;
+    max-width: 280px;
     z-index: 1000;
     transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
+    padding: 24px 16px;
   }
   
   .sidebar.active {
@@ -229,23 +232,86 @@
     opacity: 1;
   }
   
+  /* Sidebar Header - Compact for Mobile */
+  .sidebar-header {
+    margin-bottom: 20px;
+  }
+  
+  .brand {
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    padding: 0;
+  }
+  
+  .logo {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+  }
+  
+  .logo svg {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .brand-text {
+    flex: 1;
+    min-width: 0;
+  }
+  
+  .app-name {
+    font-size: 0.95rem;
+    line-height: 1.2;
+    white-space: normal;
+    word-wrap: break-word;
+  }
+  
+  .app-sub {
+    font-size: 0.7rem;
+    margin-top: 2px;
+    white-space: nowrap;
+  }
+  
+  /* Navigation Items - Larger tap targets */
+  .nav {
+    gap: 4px;
+  }
+  
+  .nav-item {
+    padding: 14px 12px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+  }
+  
+  .country-flag {
+    font-size: 1.5rem;
+  }
+  
   .main {
     padding: 12px;
-    padding-top: 68px;
+    padding-top: 64px;
     padding-bottom: env(safe-area-inset-bottom, 20px);
   }
   
   .hero {
-    padding: 16px;
+    padding: 16px 12px;
     margin-bottom: 16px;
+    border-radius: 12px;
   }
   
   .hero h1 {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
+    margin-bottom: 16px;
+  }
+  
+  .country-budget {
+    flex-direction: column;
+    gap: 16px;
   }
   
   .topbar {
-    padding: 12px 16px 12px 68px;
+    padding: 10px 12px 10px 60px;
     margin: 0 -12px;
     border-radius: 0;
     position: fixed;
@@ -255,15 +321,45 @@
     z-index: 100;
     background: var(--surface);
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  }
-  
-  .top-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     gap: 8px;
   }
   
+  .main-title {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  
+  .main-title h2 {
+    font-size: 1rem;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .main-title .subtitle {
+    font-size: 0.7rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .top-actions {
+    gap: 6px;
+    flex-shrink: 0;
+  }
+  
   .action-button {
-    padding: 8px 12px;
+    padding: 8px;
     font-size: 0.85rem;
+    min-width: 36px;
+    width: auto;
   }
   
   .action-button span {
@@ -272,29 +368,25 @@
   
   .action-button svg {
     margin: 0;
-  }
-  
-  .main-title h2 {
-    font-size: 1.1rem;
-  }
-  
-  .main-title .subtitle {
-    font-size: 0.8rem;
+    width: 18px;
+    height: 18px;
   }
   
   .form-panel {
-    padding: 16px;
-    border-radius: var(--radius);
+    padding: 16px 12px;
+    border-radius: 12px;
     margin-bottom: 16px;
   }
   
   .list-card {
-    padding: 14px;
+    padding: 16px 12px;
     margin-bottom: 16px;
+    border-radius: 12px;
   }
   
   .list-card h3 {
     font-size: 1.1rem;
+    margin-bottom: 14px;
   }
   
   .analytics-grid {
@@ -307,81 +399,163 @@
   }
   
   .budget-stats {
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1fr;
     gap: 12px;
+    width: 100%;
   }
   
   .stat-item {
-    gap: 2px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    background: rgba(255, 255, 255, 0.03);
+    padding: 12px;
+    border-radius: 8px;
   }
   
   .stat-label {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
+    opacity: 0.8;
   }
   
   .stat-value {
-    font-size: 1.3rem;
+    font-size: 1.4rem;
+    font-weight: 600;
+  }
+  
+  .plan-days {
+    margin-top: 0;
   }
   
   .form-row {
     flex-direction: column;
-    margin-bottom: 12px;
+    margin-bottom: 16px;
+    gap: 8px;
   }
   
   .form-row label {
     font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+  
+  .form-row input,
+  .form-row select {
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 16px;
   }
   
   .amount-inputs {
     grid-template-columns: 1fr 1fr;
-    gap: 8px;
+    gap: 10px;
+  }
+  
+  .amount-input {
+    background: var(--surface-hover);
+    border-radius: 8px;
+    padding: 2px;
+  }
+  
+  .amount-input input {
+    background: transparent;
+    border: none;
   }
   
   .actions-row {
     flex-direction: column;
     gap: 12px;
-    margin-top: 8px;
+    margin-top: 16px;
+  }
+  
+  .actions-row button {
+    width: 100%;
+    padding: 14px;
+    font-size: 1rem;
+    border-radius: 8px;
+    font-weight: 600;
   }
   
   .day-header {
-    padding: 12px;
+    padding: 14px 12px;
+    border-radius: 10px;
   }
   
   .day-header-top {
-    flex-wrap: wrap;
-    gap: 8px;
+    flex-wrap: nowrap;
+    gap: 12px;
+    align-items: center;
+  }
+  
+  .day-title {
+    flex: 1;
+    min-width: 0;
   }
   
   .day-title-text {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+  }
+  
+  .day-total {
+    flex-shrink: 0;
   }
   
   .day-total-amount {
-    font-size: 1rem;
+    font-size: 1.1rem;
+    font-weight: 700;
   }
   
   .expense-item {
-    padding: 10px;
+    padding: 12px;
     font-size: 0.9rem;
+    border-radius: 8px;
+    margin-bottom: 8px;
   }
   
   .expense-desc {
     font-size: 0.85rem;
+    margin-top: 4px;
   }
   
   .category-tag {
     font-size: 0.7rem;
-    padding: 2px 6px;
+    padding: 3px 8px;
+    border-radius: 4px;
+  }
+  
+  /* Daily Summaries Scroll */
+  #dailySummaries {
+    max-height: none;
+  }
+  
+  .day-summary {
+    margin-bottom: 12px;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  
+  .hero-progress-card {
+    padding: 16px 12px;
+    border-radius: 12px;
+    margin-top: 16px;
   }
   
   /* Better tap targets on mobile */
-  button:not(.menu-toggle):not(.close-menu),
+  button:not(.menu-toggle):not(.close-menu):not(.expense-action-btn),
   input,
   select {
     min-height: 44px;
     width: 100%;
     font-size: 16px; /* Prevents iOS zoom on focus */
     -webkit-tap-highlight-color: transparent;
+  }
+  
+  .expense-action-btn {
+    min-height: 36px;
+    width: auto;
+    padding: 8px 12px;
   }
   
   input:focus,
@@ -406,18 +580,53 @@
   
   /* Modal adjustments for mobile */
   .sync-modal__dialog {
-    width: 90%;
-    max-width: 90%;
+    width: 92%;
+    max-width: 92%;
     max-height: 85vh;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
+    border-radius: 16px;
+    padding: 20px;
+  }
+  
+  .sync-modal__close {
+    top: 12px;
+    right: 12px;
+    font-size: 1.5rem;
   }
   
   /* Footer */
   .footer {
-    padding: 12px;
-    padding-bottom: env(safe-area-inset-bottom, 12px);
+    padding: 14px 12px;
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 14px);
+    font-size: 0.75rem;
+    text-align: center;
+  }
+  
+  /* Repeat controls for mobile */
+  .repeat-row {
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+  }
+  
+  .repeat-controls {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  
+  .repeat-controls input[type="number"] {
+    width: 80px;
+    padding: 8px;
+  }
+  
+  /* Exchange rate display */
+  .exchange-rate {
     font-size: 0.8rem;
+    margin-top: 6px;
+    padding: 8px;
+    border-radius: 6px;
+    background: rgba(59, 130, 246, 0.1);
   }
   
   /* Hide scrollbars on mobile but keep functionality */
