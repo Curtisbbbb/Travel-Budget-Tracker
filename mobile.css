@@ -184,24 +184,39 @@
   }
 }
 
-/* Mobile (≤ 428px) - iPhone 13 Pro Max optimized */
+/* Mobile (≤ 428px) - Complete Mobile Redesign */
 @media screen and (max-width: 428px) {
-  .app {
-    grid-template-columns: 1fr;
-    min-height: 100vh;
-    min-height: -webkit-fill-available;
+  * {
+    box-sizing: border-box;
+  }
+  
+  html {
+    overflow-x: hidden;
+    max-width: 100vw;
   }
   
   body {
     min-height: 100vh;
     min-height: -webkit-fill-available;
+    overflow-x: hidden;
+    max-width: 100vw;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .app {
+    grid-template-columns: 1fr;
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+    overflow-x: hidden;
+    max-width: 100vw;
   }
   
   .menu-toggle {
     display: flex !important;
     -webkit-tap-highlight-color: transparent;
-    top: 8px;
-    left: 8px;
+    top: 10px;
+    left: 10px;
   }
   
   .close-menu {
@@ -220,7 +235,7 @@
     transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
-    padding: 24px 16px;
+    padding: 20px 16px;
   }
   
   .sidebar.active {
@@ -234,25 +249,25 @@
   
   /* Sidebar Header - Compact for Mobile */
   .sidebar-header {
-    margin-bottom: 20px;
+    margin-bottom: 16px;
   }
   
   .brand {
-    flex-direction: row;
-    align-items: center;
-    gap: 12px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
     padding: 0;
   }
   
   .logo {
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
     flex-shrink: 0;
   }
   
   .logo svg {
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
   }
   
   .brand-text {
@@ -261,59 +276,61 @@
   }
   
   .app-name {
-    font-size: 0.95rem;
-    line-height: 1.2;
+    font-size: 15px;
+    line-height: 1.3;
     white-space: normal;
     word-wrap: break-word;
   }
   
   .app-sub {
-    font-size: 0.7rem;
+    font-size: 12px;
     margin-top: 2px;
-    white-space: nowrap;
+    white-space: normal;
   }
   
   /* Navigation Items - Larger tap targets */
   .nav {
-    gap: 4px;
+    gap: 6px;
   }
   
   .nav-item {
-    padding: 14px 12px;
-    border-radius: 8px;
-    font-size: 0.95rem;
+    padding: 12px;
+    border-radius: 10px;
+    font-size: 16px;
   }
   
   .country-flag {
-    font-size: 1.5rem;
+    font-size: 24px;
   }
   
   .main {
-    padding: 12px;
-    padding-top: 64px;
+    padding: 0;
+    padding-top: 60px;
     padding-bottom: env(safe-area-inset-bottom, 20px);
+    max-width: 100vw;
+    overflow-x: hidden;
   }
   
   .hero {
-    padding: 16px 12px;
-    margin-bottom: 16px;
-    border-radius: 12px;
+    padding: 16px;
+    margin: 0 0 12px 0;
+    border-radius: 0;
   }
   
   .hero h1 {
-    font-size: 24px;
+    font-size: 22px;
     margin-bottom: 16px;
     font-weight: 700;
   }
   
   .country-budget {
     flex-direction: column;
-    gap: 16px;
+    gap: 12px;
   }
   
   .topbar {
-    padding: 10px 12px;
-    margin: 0 -12px;
+    padding: 12px 16px;
+    margin: 0;
     border-radius: 0;
     position: fixed;
     top: 0;
@@ -325,40 +342,32 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
   }
   
   .main-title {
     flex: 1;
-    min-width: 0;
     display: flex;
     flex-direction: column;
-    gap: 2px;
     align-items: center;
     text-align: center;
-    padding: 0 60px;
+    padding: 0 50px;
   }
   
   .main-title h2 {
     font-size: 16px;
     margin: 0;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    width: 100%;
+    font-weight: 700;
   }
   
   .main-title .subtitle {
-    font-size: 12px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    width: 100%;
+    font-size: 11px;
+    opacity: 0.7;
+    margin-top: 2px;
   }
   
   .top-actions {
     position: absolute;
-    right: 8px;
+    right: 10px;
     top: 50%;
     transform: translateY(-50%);
     gap: 6px;
@@ -367,9 +376,10 @@
   
   .action-button {
     padding: 8px;
-    font-size: 0.85rem;
-    min-width: 36px;
+    font-size: 16px;
+    min-width: 40px;
     width: auto;
+    height: 40px;
   }
   
   .action-button span {
@@ -378,61 +388,98 @@
   
   .action-button svg {
     margin: 0;
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
+  }
+  
+  .form-area {
+    padding: 0 16px;
+    max-width: 100vw;
+    overflow: hidden;
   }
   
   .form-panel {
-    padding: 16px 12px;
+    padding: 16px;
     border-radius: 12px;
-    margin-bottom: 16px;
+    margin-bottom: 12px;
+    width: 100%;
+  }
+  
+  .lists-panel {
+    width: 100%;
   }
   
   .list-card {
-    padding: 16px 12px;
-    margin-bottom: 16px;
+    padding: 16px;
+    margin-bottom: 12px;
     border-radius: 12px;
+    width: 100%;
   }
   
   .list-card h3 {
     font-size: 18px;
-    margin-bottom: 14px;
-    font-weight: 600;
+    margin-bottom: 12px;
+    font-weight: 700;
+  }
+  
+  .analytics-card {
+    width: 100%;
+    overflow: hidden;
   }
   
   .analytics-grid {
-    grid-template-columns: repeat(2, 1fr);
+    display: flex;
+    flex-direction: column;
     gap: 10px;
+    width: 100%;
   }
   
   .analytics-item {
-    padding: 14px 12px;
+    padding: 12px 14px;
     border-radius: 10px;
-    background: rgba(255, 255, 255, 0.03);
+    background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.1);
+    width: 100%;
   }
   
   .analytics-item.full-span {
-    grid-column: 1 / -1;
+    width: 100%;
   }
   
   .analytics-label {
-    font-size: 0.75rem;
+    font-size: 13px;
     display: block;
     margin-bottom: 6px;
-    opacity: 0.8;
+    opacity: 0.7;
+    font-weight: 500;
   }
   
   .analytics-value {
-    font-size: 1.2rem;
-    font-weight: 600;
+    font-size: 18px;
+    font-weight: 700;
     display: block;
+    word-break: break-word;
+  }
+  
+  .category-breakdown {
+    width: 100%;
+    overflow: hidden;
+  }
+  
+  .category-breakdown__row {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  
+  .category-breakdown__bar {
+    width: 100%;
+    max-width: 100%;
   }
   
   .budget-stats {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
     width: 100%;
   }
   
@@ -440,29 +487,38 @@
     display: flex;
     flex-direction: column;
     gap: 4px;
-    background: rgba(255, 255, 255, 0.03);
-    padding: 12px;
-    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
   }
   
   .stat-label {
     font-size: 13px;
-    opacity: 0.8;
+    opacity: 0.7;
+    font-weight: 500;
   }
   
   .stat-value {
-    font-size: 22px;
-    font-weight: 600;
+    font-size: 20px;
+    font-weight: 700;
+    word-break: break-word;
   }
   
   .plan-days {
     margin-top: 0;
   }
   
+  .plan-days .stat-item {
+    background: rgba(59, 130, 246, 0.1);
+    border-color: rgba(59, 130, 246, 0.3);
+  }
+  
   .form-row {
     flex-direction: column;
     margin-bottom: 16px;
     gap: 8px;
+    width: 100%;
   }
   
   .form-row label {
@@ -476,60 +532,88 @@
     padding: 12px;
     border-radius: 8px;
     font-size: 16px;
+    width: 100%;
+    box-sizing: border-box;
   }
   
   .amount-inputs {
-    grid-template-columns: 1fr 1fr;
+    display: flex;
     gap: 10px;
+    width: 100%;
   }
   
   .amount-input {
     background: var(--surface-hover);
     border-radius: 8px;
     padding: 2px;
+    flex: 1;
+    min-width: 0;
   }
   
   .amount-input input {
     background: transparent;
     border: none;
+    width: 100%;
   }
   
   .actions-row {
+    display: flex;
     flex-direction: column;
     gap: 12px;
     margin-top: 16px;
+    width: 100%;
   }
   
   .actions-row button {
     width: 100%;
     padding: 14px;
-    font-size: 1rem;
-    border-radius: 8px;
+    font-size: 16px;
+    border-radius: 10px;
     font-weight: 600;
+    box-sizing: border-box;
+  }
+  
+  #dailySummaries {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+  
+  .day-summary {
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
   }
   
   .day-header {
-    padding: 14px 12px;
+    padding: 14px;
     border-radius: 10px;
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
+    width: 100%;
   }
   
   .day-header-top {
-    flex-wrap: nowrap;
-    gap: 12px;
+    display: flex;
+    justify-content: space-between;
     align-items: center;
+    gap: 12px;
+    width: 100%;
   }
   
   .day-title {
     flex: 1;
     min-width: 0;
+    overflow: hidden;
   }
   
   .day-title-text {
     font-size: 16px;
     font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   
   .day-total {
@@ -537,8 +621,14 @@
   }
   
   .day-total-amount {
-    font-size: 18px;
+    font-size: 17px;
     font-weight: 700;
+    white-space: nowrap;
+  }
+  
+  .day-details {
+    width: 100%;
+    overflow: hidden;
   }
   
   .expense-item {
@@ -546,64 +636,83 @@
     font-size: 16px;
     border-radius: 8px;
     margin-bottom: 8px;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+  }
+  
+  .expense-info {
+    width: 100%;
+    overflow: hidden;
   }
   
   .expense-desc {
     font-size: 14px;
     margin-top: 4px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
   }
   
   .category-tag {
-    font-size: 12px;
-    padding: 3px 8px;
+    font-size: 11px;
+    padding: 4px 8px;
     border-radius: 4px;
   }
   
   .expense-amounts {
     font-size: 16px;
+    white-space: nowrap;
   }
   
   .amount-gbp,
   .amount-local {
     font-size: 16px;
+    white-space: nowrap;
   }
   
-  /* Daily Summaries Scroll */
-  #dailySummaries {
-    max-height: none;
-  }
-  
-  .day-summary {
-    margin-bottom: 12px;
-    border-radius: 12px;
-    overflow: hidden;
-    touch-action: manipulation;
-  }
-  
-  .day-details {
-    touch-action: pan-y;
+  .expense-actions {
+    flex-wrap: nowrap;
+    gap: 8px;
   }
   
   .hero-progress-card {
-    padding: 16px 12px;
+    padding: 14px 16px;
     border-radius: 12px;
-    margin-top: 16px;
+    margin-top: 12px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .progress-bar {
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+  }
+  
+  .progress-fill {
+    max-width: 100%;
   }
   
   /* Better tap targets on mobile */
-  button:not(.menu-toggle):not(.close-menu):not(.expense-action-btn),
+  button:not(.menu-toggle):not(.close-menu):not(.expense-action-btn):not(.day-header),
   input,
   select {
     min-height: 44px;
     width: 100%;
     font-size: 16px; /* Prevents iOS zoom on focus */
     -webkit-tap-highlight-color: transparent;
+    box-sizing: border-box;
   }
   
   .expense-action-btn {
     min-height: 36px;
     width: auto;
     padding: 8px 12px;
+    flex-shrink: 0;
+  }
+  
+  .arrow {
+    flex-shrink: 0;
   }
   
   input:focus,
@@ -656,25 +765,35 @@
     flex-direction: column;
     gap: 12px;
     align-items: stretch;
+    width: 100%;
   }
   
   .repeat-controls {
+    display: flex;
     flex-wrap: wrap;
     gap: 8px;
+    align-items: center;
   }
   
   .repeat-controls input[type="number"] {
-    width: 80px;
+    width: 70px;
     padding: 8px;
+    flex-shrink: 0;
+  }
+  
+  .repeat-label {
+    flex-shrink: 0;
   }
   
   /* Exchange rate display */
   .exchange-rate {
-    font-size: 0.8rem;
+    font-size: 13px;
     margin-top: 6px;
-    padding: 8px;
-    border-radius: 6px;
+    padding: 10px;
+    border-radius: 8px;
     background: rgba(59, 130, 246, 0.1);
+    width: 100%;
+    box-sizing: border-box;
   }
   
   /* Hide scrollbars on mobile but keep functionality */
