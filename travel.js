@@ -1422,15 +1422,6 @@ function normaliseIncomingState(payload) {
 }
 
 async function handleCreateShare() {
-  if (!supabaseConfigured()) {
-    updateSyncStatus('Add Supabase credentials to enable sync', 'error');
-    return;
-  }
-  if (!supabaseClient) {
-    initializeSupabase();
-  }
-  if (!supabaseClient) return;
-
   const customCodeRaw = elements.shareIdInput?.value || '';
   let customCode = customCodeRaw.trim().toUpperCase();
   if (customCode) {
@@ -1444,6 +1435,18 @@ async function handleCreateShare() {
   }
   localStorage.setItem(SHARE_STORAGE_KEY, activeShareId);
   populateShareDetails(activeShareId);
+
+  if (!supabaseConfigured()) {
+    setSyncFeedback('Share code saved locally. Add Supabase credentials to sync devices.', 'warning');
+    updateSyncStatus('Share code ready • connect Supabase to sync', 'warning');
+    return;
+  }
+
+  if (!supabaseClient) {
+    initializeSupabase();
+  }
+  if (!supabaseClient) return;
+
   setSyncFeedback('Generating share code…', 'info');
   await syncStateToCloud(true);
   setSyncFeedback('Share ready! Use this code on another device.', 'success');
