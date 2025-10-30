@@ -1431,6 +1431,7 @@ button.tiny {
   min-height: auto;
   padding: 0;
   display: block;
+  margin-bottom: 1.25rem;
 }
 
 .budget-alerts--inline .meta {
@@ -1438,6 +1439,10 @@ button.tiny {
   justify-content: flex-start;
   font-size: 0.8rem;
   color: rgba(148, 163, 184, 0.85);
+}
+
+.budget-alerts--list {
+  margin-top: 1.25rem;
 }
 
 .budget-alerts .meta {

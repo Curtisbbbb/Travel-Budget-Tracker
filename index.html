@@ -204,9 +204,7 @@
           
           <div class="list-card analytics-card">
             <h3 class="section-title">Budget Analytics</h3>
-            <div id="budgetPositionBanner" class="budget-alerts budget-alerts--inline hidden" role="status">
-              <div class="meta">Log a few expenses to see how your budget is tracking.</div>
-            </div>
+            <div id="budgetPositionBanner" class="budget-alerts budget-alerts--inline hidden" role="status"></div>
             <div class="analytics-grid">
               <div class="analytics-item">
                 <span class="analytics-label">Trip Progress</span>
@@ -233,13 +231,12 @@
                 <span id="smallestSpendDay" class="analytics-value"></span>
               </div>
               <div class="analytics-item full-span">
-                <span class="analytics-label">Budget Health</span>
-                <div id="budgetAlerts" class="budget-alerts"></div>
-              </div>
-              <div class="analytics-item full-span">
                 <span class="analytics-label">Spend by Category</span>
                 <div id="categoryBreakdown" class="category-breakdown"></div>
               </div>
+            </div>
+            <div id="budgetAlerts" class="budget-alerts budget-alerts--list">
+              <div class="meta">Insights appear here once you add some expenses.</div>
             </div>
           </div>
         </div>

@@ -703,7 +703,7 @@ function updateBudgetPositionBanner(netSavings) {
     banner.innerHTML = `
       <div class="budget-alert budget-alert--inline success">
         <span class="budget-alert__badge">✓</span>
-        <span class="budget-alert__message">You've saved ${formatGbp(rounded)} from staying under your daily budgets — well done!</span>
+        <span class="budget-alert__message">You've saved ${formatGbp(rounded)} from being under your daily budgets — well done!</span>
       </div>
     `;
     return;
