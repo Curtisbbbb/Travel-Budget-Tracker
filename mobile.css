@@ -265,8 +265,12 @@
   }
   
   .close-menu {
-    display: block;
+    display: flex;
     -webkit-tap-highlight-color: transparent;
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    z-index: 10;
   }
   
   .sidebar {
@@ -307,7 +311,7 @@
     align-items: center;
     gap: 16px;
     position: relative;
-    padding-top: 8px;
+    padding: 8px 56px 0 8px;
   }
   
   .brand {
