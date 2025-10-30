@@ -1549,11 +1549,11 @@ button.tiny {
 
 .budget-alert {
   position: absolute;
-  inset: 0;
+  inset: 4px 6px;
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 12px 16px;
+  padding: 10px 14px;
   border-radius: 12px;
   border: 1px solid rgba(42, 72, 88, 0.6);
   background: rgba(15, 23, 42, 0.92);
