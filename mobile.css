@@ -1081,7 +1081,22 @@
     transform: translateY(0);
   }
   
-  /* Better tap targets on mobile */
+  
+  .hero #countryName {
+    gap: 0.6rem;
+    font-size: clamp(1.45rem, 7vw, 1.9rem);
+  }
+
+  .hero #countryName::before {
+    width: 1.9rem;
+    height: 1.9rem;
+    font-size: 1.1rem;
+  }
+
+  .hero #countryName span::after {
+    height: 2px;
+  }
+/* Better tap targets on mobile */
   button:not(.menu-toggle):not(.close-menu):not(.expense-action-btn):not(.day-header),
   input,
   select {

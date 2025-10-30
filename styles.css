@@ -419,9 +419,52 @@ body {
   box-shadow: var(--shadow);
 }
 
-h1 {
-  font-size: 32px;
-  margin-bottom: 24px;
+.hero #countryName {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: clamp(2rem, 2.8vw, 2.6rem);
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text);
+  margin-bottom: 26px;
+  position: relative;
+}
+
+.hero #countryName::before {
+  content: '✈';
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 50%;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  font-size: 1.3rem;
+  color: var(--primary);
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.1);
+  animation: heroPlaneFloat 3.2s ease-in-out infinite;
+}
+
+.hero #countryName span {
+  display: inline-block;
+  position: relative;
+  padding-bottom: 6px;
+}
+
+.hero #countryName span::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, rgba(15, 23, 42, 0.06), rgba(59, 130, 246, 0.3), rgba(15, 23, 42, 0.06));
+  border-radius: 999px;
+  transform-origin: left;
+  animation: heroUnderline 2.6s ease-in-out infinite;
 }
 
 .country-budget {
