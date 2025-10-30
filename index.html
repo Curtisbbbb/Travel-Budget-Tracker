@@ -204,19 +204,25 @@
           
           <div class="list-card analytics-card">
             <h3 class="section-title">Budget Analytics</h3>
-            <div id="budgetPositionBanner" class="budget-alerts budget-alerts--inline hidden" role="status"></div>
             <div class="analytics-grid">
-              <div class="analytics-item">
-                <span class="analytics-label">Trip Progress</span>
-                <span id="tripProgress" class="analytics-value"></span>
+              <div class="analytics-item analytics-item--savings full-span">
+                <span class="analytics-label">Savings from Budget</span>
+                <div class="analytics-savings">
+                  <span id="budgetSavings" class="analytics-value"></span>
+                  <div id="budgetPositionBanner" class="budget-alerts budget-alerts--inline hidden" role="status"></div>
+                </div>
               </div>
               <div class="analytics-item">
                 <span class="analytics-label">Days Under Budget</span>
                 <span id="daysUnderBudget" class="analytics-value"></span>
               </div>
               <div class="analytics-item">
-                <span class="analytics-label">Savings from Budget</span>
-                <span id="budgetSavings" class="analytics-value"></span>
+                <span class="analytics-label">Days Over Budget</span>
+                <span id="daysOverBudget" class="analytics-value"></span>
+              </div>
+              <div class="analytics-item">
+                <span class="analytics-label">Trip Progress</span>
+                <span id="tripProgress" class="analytics-value"></span>
               </div>
               <div class="analytics-item">
                 <span class="analytics-label">Days Remaining</span>

@@ -90,6 +90,7 @@ function cacheDomReferences() {
     dailySummaries: $('#dailySummaries'),
     tripProgress: $('#tripProgress'),
     daysUnderBudget: $('#daysUnderBudget'),
+    daysOverBudget: $('#daysOverBudget'),
     budgetSavings: $('#budgetSavings'),
     daysRemaining: $('#daysRemaining'),
     biggestSpendDay: $('#biggestSpendDay'),
@@ -543,6 +544,10 @@ function updateAnalytics(expenses, countryState, dailyTarget, remaining, rawRema
     ? dailyTotals.filter((total) => total <= dailyTarget).length
     : 0;
 
+  const daysOverBudget = dailyTarget > 0
+    ? dailyTotals.filter((total) => total > dailyTarget).length
+    : 0;
+
   let totalSavings = 0;
   let totalOverspend = 0;
   if (dailyTarget > 0) {
@@ -572,6 +577,7 @@ function updateAnalytics(expenses, countryState, dailyTarget, remaining, rawRema
 
   if (elements.tripProgress) elements.tripProgress.textContent = `${Math.round(progress)}%`;
   if (elements.daysUnderBudget) elements.daysUnderBudget.textContent = `${daysUnderBudget}`;
+  if (elements.daysOverBudget) elements.daysOverBudget.textContent = `${daysOverBudget}`;
   if (elements.budgetSavings) elements.budgetSavings.textContent = formatGbp(netSavingsFromBudget);
   if (elements.daysRemaining) {
     elements.daysRemaining.textContent = remainingDays === null ? 'Set days' : `${remainingDays} day${remainingDays === 1 ? '' : 's'}`;

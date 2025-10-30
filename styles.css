@@ -1431,14 +1431,15 @@ button.tiny {
   min-height: auto;
   padding: 0;
   display: block;
-  margin-bottom: 1.25rem;
 }
 
 .budget-alerts--inline .meta {
   position: static;
   justify-content: flex-start;
   font-size: 0.8rem;
-  color: rgba(148, 163, 184, 0.85);
+  color: rgba(148, 163, 184, 0.75);
+  margin: 0;
+  padding: 0;
 }
 
 .budget-alerts--list {
@@ -1540,6 +1541,7 @@ button.tiny {
   position: static;
   inset: auto;
   width: 100%;
+  margin-top: 0.75rem;
 }
 
 @keyframes budgetAlertFade {
