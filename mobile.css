@@ -1169,6 +1169,14 @@
     top: 12px;
     right: 12px;
     font-size: 1.5rem;
+    width: 40px !important;
+    height: 40px !important;
+    min-width: 40px;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
   }
   
   /* Footer */
