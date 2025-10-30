@@ -12,7 +12,7 @@
   color: var(--text);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   cursor: pointer;
-  transition: transform 0.2s ease, background 0.2s ease;
+  transition: transform 0.2s ease, background 0.2s ease, opacity 0.2s ease;
   width: 44px !important;
   height: 44px !important;
   min-width: 44px;
@@ -22,6 +22,12 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+}
+
+.menu-toggle.menu-toggle--hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-6px);
 }
 
 .menu-toggle svg {
@@ -155,6 +161,9 @@
   .close-menu {
     display: block;
     -webkit-tap-highlight-color: transparent;
+    position: absolute;
+    top: calc(env(safe-area-inset-top, 0));
+    right: calc(env(safe-area-inset-right, 0));
   }
   
   .sidebar {
@@ -232,6 +241,12 @@
     top: calc(env(safe-area-inset-top, 0) + 10px);
     left: calc(env(safe-area-inset-left, 0) + 10px);
   }
+
+  body.menu-open .menu-toggle {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-6px);
+  }
   
   .close-menu {
     display: block;
@@ -252,6 +267,10 @@
     padding: 20px 16px;
     padding-top: calc(env(safe-area-inset-top, 0) + 20px);
     padding-bottom: calc(env(safe-area-inset-bottom, 0) + 24px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
   }
   
   .sidebar.active {
@@ -267,19 +286,26 @@
   .sidebar-header {
     margin-bottom: 16px;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    position: relative;
+    padding-top: 8px;
   }
   
   .brand {
-    flex-direction: row;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
     padding: 0;
     width: 100%;
   }
   
   .logo {
-    width: 32px;
-    height: 32px;
+    width: 48px;
+    height: 48px;
     flex-shrink: 0;
     display: flex;
     align-items: center;
@@ -287,14 +313,15 @@
   }
   
   .logo svg {
-    width: 32px;
-    height: 32px;
+    width: 48px;
+    height: 48px;
   }
   
   .brand-text {
     flex: 1;
     min-width: 0;
     overflow: hidden;
+    text-align: center;
   }
   
   .app-name {
@@ -317,13 +344,17 @@
   
   /* Navigation Items - Larger tap targets */
   .nav {
+    width: 100%;
     gap: 6px;
+    align-items: stretch;
   }
   
   .nav-item {
     padding: 12px;
     border-radius: 10px;
     font-size: 16px;
+    justify-content: center;
+    text-align: center;
   }
   
   .country-flag {
@@ -340,23 +371,32 @@
   }
   
   .hero {
-    padding: 16px;
+    padding: clamp(20px, 6vw, 28px);
     margin: 0;
-    border-radius: 0;
+    border-radius: 20px;
     width: 100%;
     max-width: 100%;
-    overflow-x: hidden;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    box-shadow: 0 18px 40px rgba(15, 23, 42, 0.16);
+    display: grid;
+    gap: clamp(18px, 5vw, 24px);
   }
   
   .hero h1 {
-    font-size: 22px;
-    margin-bottom: 16px;
-    font-weight: 700;
+    font-size: clamp(28px, 8vw, 34px);
+    margin-bottom: 0;
+    font-weight: 800;
+    text-align: center;
+    color: var(--primary-dark);
+    letter-spacing: 0.5px;
   }
   
   .country-budget {
-    flex-direction: column;
-    gap: 12px;
+    display: grid;
+    gap: clamp(14px, 4vw, 18px);
+    width: 100%;
   }
   
   .topbar {
@@ -535,42 +575,42 @@
     height: auto !important;
   }
   
-  .budget-stats {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  .budget-stats,
+  .plan-days {
+    display: grid;
+    gap: clamp(12px, 4vw, 16px);
     width: 100%;
+    padding: 0;
+    background: transparent;
   }
   
-  .stat-item {
+  .country-budget .stat-item {
     display: flex;
     flex-direction: column;
-    gap: 4px;
-    background: rgba(255, 255, 255, 0.05);
-    padding: 12px 14px;
-    border-radius: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    gap: 6px;
+    background: rgba(15, 23, 42, 0.05);
+    padding: clamp(14px, 5vw, 18px);
+    border-radius: 16px;
+    border: 1px solid rgba(148, 163, 184, 0.24);
+    box-shadow: 0 14px 32px rgba(15, 23, 42, 0.12);
+    backdrop-filter: blur(6px);
   }
   
-  .stat-label {
-    font-size: 13px;
-    opacity: 0.7;
-    font-weight: 500;
+  .country-budget .stat-label {
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
   }
   
-  .stat-value {
-    font-size: 20px;
+  .country-budget .stat-value {
+    font-size: clamp(22px, 7vw, 28px);
     font-weight: 700;
     word-break: break-word;
   }
   
   .plan-days {
     margin-top: 0;
-  }
-  
-  .plan-days .stat-item {
-    background: rgba(59, 130, 246, 0.1);
-    border-color: rgba(59, 130, 246, 0.3);
   }
   
   .form-row {
@@ -655,150 +695,157 @@
     width: 100%;
     max-width: 100%;
     overflow: hidden !important;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
     box-sizing: border-box;
+    border-radius: 18px;
+    border: 1px solid rgba(148, 163, 184, 0.24);
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 16px 36px rgba(15, 23, 42, 0.12);
   }
   
   .day-header {
-    padding: 12px;
-    border-radius: 10px;
+    padding: clamp(16px, 5vw, 20px);
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
     width: 100%;
-    max-width: 100%;
     box-sizing: border-box;
-    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background: transparent;
   }
   
   .day-header-top {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
     width: 100%;
-    max-width: 100%;
-    overflow: hidden;
   }
   
   .day-title {
     flex: 1;
     min-width: 0;
-    overflow: hidden;
   }
   
   .day-title-text {
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 600;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 100%;
+    color: var(--text);
+  }
+  
+  .day-title-text strong {
+    font-size: 16px;
+  }
+  
+  .day-title-text .meta {
+    display: block;
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-top: 4px;
   }
   
   .day-total {
     flex-shrink: 0;
-    max-width: 40%;
+    text-align: right;
   }
   
   .day-total-amount {
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 700;
-    white-space: nowrap;
   }
   
   .day-details {
+    display: none;
     width: 100%;
     max-width: 100%;
     overflow: hidden !important;
     box-sizing: border-box;
-    padding: 0;
+    padding: 0 clamp(16px, 5vw, 20px) clamp(18px, 5vw, 24px);
+  }
+  
+  .day-summary.expanded .day-details {
+    display: grid;
+    gap: 12px;
   }
   
   .day-progress {
     width: 100%;
-    max-width: 100%;
-    overflow: hidden;
-    margin: 8px 0;
+    margin: 8px 0 0;
   }
   
   .expense-item {
     width: 100%;
     max-width: 100%;
     overflow: hidden !important;
-    padding: 10px;
-    border-radius: 8px;
-    margin-bottom: 8px;
+    padding: clamp(14px, 5vw, 18px);
+    border-radius: 16px;
+    margin-bottom: 12px;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background: rgba(248, 250, 252, 0.9);
+    border: 1px solid rgba(226, 232, 240, 0.9);
   }
   
   .expense-info {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 8px;
-    width: 100%;
-    max-width: 100%;
-    overflow: hidden;
-  }
-  
-  .expense-details {
-    flex: 1;
-    min-width: 0;
-    overflow: hidden;
-    max-width: 65%;
-  }
-  
-  .expense-category {
-    font-size: 15px;
-    font-weight: 600;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
     width: 100%;
   }
   
-  .expense-note {
-    font-size: 14px;
-    opacity: 0.9;
-    margin-top: 2px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    width: 100%;
+  .expense-info .category-tag {
+    font-size: 0.78rem;
+    padding: 4px 12px;
   }
   
-  .expense-amount {
-    flex-shrink: 0;
-    font-size: 16px;
-    font-weight: 700;
-    white-space: nowrap;
-    max-width: 35%;
-    overflow: hidden;
-    text-align: right;
+  .expense-info .expense-desc {
+    font-size: 0.95rem;
+    color: var(--text);
+    word-break: break-word;
   }
   
   .expense-actions {
     display: flex;
-    justify-content: flex-end;
-    gap: 6px;
-    margin-top: 8px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
     width: 100%;
-    max-width: 100%;
-    overflow: hidden;
   }
   
-  .expense-actions button {
-    min-width: 65px;
-    padding: 8px 10px;
-    border-radius: 6px;
-    border: none;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation;
-    box-sizing: border-box;
+  .expense-amounts {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 8px;
+    width: 100%;
+  }
+  
+  .expense-amounts .amount-gbp {
+    font-size: 1rem;
+    font-weight: 700;
+  }
+  
+  .expense-amounts .amount-local {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+  }
+  
+  .expense-action-buttons {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .expense-action-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    font-size: 1rem;
   }
   
   /* Better tap targets on mobile */
@@ -810,13 +857,6 @@
     font-size: 16px; /* Prevents iOS zoom on focus */
     -webkit-tap-highlight-color: transparent;
     box-sizing: border-box;
-  }
-  
-  .expense-action-btn {
-    min-height: 36px;
-    width: auto;
-    padding: 8px 12px;
-    flex-shrink: 0;
   }
   
   .arrow {

@@ -129,17 +129,21 @@ function setupMobileMenu() {
   const overlay = document.querySelector('.mobile-overlay');
   if (!overlay) return;
 
+  const applyMenuState = (isOpen) => {
+    elements.sidebar.classList.toggle('active', isOpen);
+    overlay.classList.toggle('active', isOpen);
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+    document.body.classList.toggle('menu-open', isOpen);
+    elements.menuToggle?.classList.toggle('menu-toggle--hidden', isOpen);
+  };
+
   const toggleMenu = () => {
-    const isActive = elements.sidebar.classList.contains('active');
-    elements.sidebar.classList.toggle('active');
-    overlay.classList.toggle('active');
-    document.body.style.overflow = !isActive ? 'hidden' : '';
+    const willOpen = !elements.sidebar.classList.contains('active');
+    applyMenuState(willOpen);
   };
 
   const closeMenu = () => {
-    elements.sidebar.classList.remove('active');
-    overlay.classList.remove('active');
-    document.body.style.overflow = '';
+    applyMenuState(false);
   };
 
   if (elements.menuToggle) {
@@ -162,6 +166,7 @@ function setupMobileMenu() {
   
   // Store overlay reference for later use
   elements.mobileOverlay = overlay;
+  elements.closeMenuHandler = closeMenu;
 }
 
 function setupNavigation() {
@@ -174,10 +179,16 @@ function setupNavigation() {
       
       // Close mobile menu if it's open
       if (elements.sidebar?.classList.contains('active')) {
-        elements.sidebar.classList.remove('active');
-        document.body.style.overflow = '';
-        if (elements.mobileOverlay) {
-          elements.mobileOverlay.classList.remove('active');
+        if (typeof elements.closeMenuHandler === 'function') {
+          elements.closeMenuHandler();
+        } else {
+          elements.sidebar.classList.remove('active');
+          document.body.style.overflow = '';
+          if (elements.mobileOverlay) {
+            elements.mobileOverlay.classList.remove('active');
+          }
+          document.body.classList.remove('menu-open');
+          elements.menuToggle?.classList.remove('menu-toggle--hidden');
         }
       }
     });
