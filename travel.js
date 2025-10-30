@@ -99,9 +99,14 @@ function cacheDomReferences() {
     budgetPositionBanner: $('#budgetPositionBanner'),
     categoryBreakdown: $('#categoryBreakdown'),
     exportButton: $('#exportTravel'),
+    importButton: $('#importTravelButton'),
     importInput: $('#importTravelFile'),
     openSyncButton: $('#openSync'),
     closeSyncButton: $('#closeSync'),
+    openDataButton: $('#openData'),
+    closeDataButton: $('#closeData'),
+    dataModal: $('#dataModal'),
+    dataOverlay: document.querySelector('[data-close-data]'),
     syncModal: $('#syncModal'),
     syncOverlay: document.querySelector('[data-close-sync]'),
     createShareButton: $('#createShare'),
@@ -239,11 +244,19 @@ function setupForm() {
 }
 
 function setupDataManagement() {
+  // Import button triggers file picker
+  elements.importButton?.addEventListener('click', (evt) => {
+    evt.preventDefault();
+    elements.importInput?.click();
+  });
+
+  // Export button exports data
   elements.exportButton?.addEventListener('click', (evt) => {
     evt.preventDefault();
     exportStateAsJson();
   });
 
+  // Handle file selection
   elements.importInput?.addEventListener('change', async (evt) => {
     const [file] = evt.target.files || [];
     if (!file) return;
@@ -1335,6 +1348,17 @@ function initSyncUI() {
   elements.closeSyncButton?.addEventListener('click', () => toggleSyncModal(false));
   elements.syncOverlay?.addEventListener('click', () => toggleSyncModal(false));
 
+  // Data Management Modal
+  if (elements.openDataButton) {
+    elements.openDataButton.addEventListener('click', (evt) => {
+      evt.preventDefault();
+      toggleDataModal(true);
+    });
+  }
+
+  elements.closeDataButton?.addEventListener('click', () => toggleDataModal(false));
+  elements.dataOverlay?.addEventListener('click', () => toggleDataModal(false));
+
   elements.createShareButton?.addEventListener('click', async (evt) => {
     evt.preventDefault();
     await handleCreateShare();
@@ -1377,6 +1401,13 @@ function toggleSyncModal(show) {
   if (shouldShow) {
     populateShareDetails(activeShareId);
   }
+}
+
+function toggleDataModal(show) {
+  if (!elements.dataModal) return;
+  const shouldShow = Boolean(show);
+  elements.dataModal.classList.toggle('hidden', !shouldShow);
+  elements.dataModal.setAttribute('aria-hidden', shouldShow ? 'false' : 'true');
 }
 
 function populateShareDetails(code) {

@@ -102,13 +102,12 @@
             </svg>
             <span>Share &amp; Sync</span>
           </button>
-          <button id="exportTravel" class="action-button">
+          <button id="openData" class="action-button">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-              <polyline points="7 10 12 15 17 10"></polyline>
-              <line x1="12" y1="15" x2="12" y2="3"></line>
+              <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
+              <polyline points="13 2 13 9 20 9"></polyline>
             </svg>
-            <span>Export Data</span>
+            <span>Data</span>
           </button>
           <input id="importTravelFile" type="file" accept="application/json" />
         </div>
@@ -226,7 +225,7 @@
                 <span id="daysOverBudget" class="analytics-value"></span>
               </div>
               <div class="analytics-item">
-                <span class="analytics-label">Trip Progress</span>
+                <span class="analytics-label">Budget Spent</span>
                 <span id="tripProgress" class="analytics-value"></span>
               </div>
               <div class="analytics-item">
@@ -292,6 +291,44 @@
       <div id="syncFeedback" class="sync-feedback"></div>
     </div>
   </div>
+
+  <div id="dataModal" class="sync-modal hidden" aria-hidden="true">
+    <div class="sync-modal__overlay" data-close-data></div>
+    <div class="sync-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="dataModalTitle">
+      <button class="sync-modal__close" id="closeData" aria-label="Close data dialog">×</button>
+      <h3 id="dataModalTitle">Data Management</h3>
+      <p class="sync-modal__intro">
+        Import or export your travel budget data as JSON files.
+      </p>
+
+      <div class="sync-modal__section">
+        <button id="importTravelButton" class="primary-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" style="margin-right: 8px;">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="17 8 12 3 7 8"></polyline>
+            <line x1="12" y1="3" x2="12" y2="15"></line>
+          </svg>
+          Import Data
+        </button>
+        <p class="helper-text">Load travel data from a JSON file</p>
+      </div>
+
+      <div class="sync-modal__section">
+        <button id="exportTravel" class="primary-btn ghost">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" style="margin-right: 8px;">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          Export Data
+        </button>
+        <p class="helper-text">Download all travel data as JSON</p>
+      </div>
+
+      <div id="dataFeedback" class="sync-feedback"></div>
+    </div>
+  </div>
+
   <script src="travel.js"></script>
 </body>
 </html>
