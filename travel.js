@@ -748,6 +748,66 @@ function updateBudgetAlerts({
     alerts.push({ tone, message });
   };
 
+  const totalsByDate = expenses.reduce((acc, expense) => {
+    if (!expense?.date) return acc;
+    acc[expense.date] = (acc[expense.date] || 0) + (Number(expense.amount) || 0);
+    return acc;
+  }, {});
+
+  const orderedDates = Object.keys(totalsByDate).sort();
+  const dailyTotals = orderedDates.map((date) => totalsByDate[date]);
+  const daysUnderBudget = dailyTarget > 0
+    ? dailyTotals.filter((total) => total <= dailyTarget).length
+    : 0;
+  const daysOverBudget = dailyTarget > 0
+    ? dailyTotals.filter((total) => total > dailyTarget).length
+    : 0;
+
+  const recentDates = orderedDates.slice(-3);
+  const overspendStreak = dailyTarget > 0 && recentDates.length === 3
+    ? recentDates.every((date) => totalsByDate[date] > dailyTarget)
+    : false;
+  const efficientStreak = dailyTarget > 0 && recentDates.length === 3
+    ? recentDates.every((date) => totalsByDate[date] <= dailyTarget * 0.7)
+    : false;
+
+  if (hasExpenses && dailyTarget > 0 && daysUnderBudget >= Math.max(3, Math.ceil(dailyTotals.length * 0.5))) {
+    pushAlert('success', `You've stayed under your daily target on ${daysUnderBudget} day${daysUnderBudget === 1 ? '' : 's'} so far — brilliant pacing!`);
+  }
+
+  if (hasExpenses && dailyTarget > 0 && daysOverBudget > daysUnderBudget) {
+    pushAlert('warning', `You've gone over budget on ${daysOverBudget} day${daysOverBudget === 1 ? '' : 's'}. Try planning a lighter spend day to rebalance.`);
+  }
+
+  if (overspendStreak) {
+    pushAlert('danger', 'Spending topped your daily target three days in a row — time for a reset day.');
+  }
+
+  if (efficientStreak) {
+    pushAlert('success', 'Three efficient days in a row! Keep this streak going and bank the savings for a big treat.');
+  }
+
+  if (budget > 0 && hasExpenses) {
+    const remainingRatio = rawRemaining / budget;
+    if (remainingRatio < -0.1) {
+      pushAlert('danger', `You're ${formatGbp(Math.abs(rawRemaining))} beyond the total trip budget. Consider rebalancing categories or extending the budget.`);
+    } else if (remainingRatio < 0.15 && remainingDays && remainingDays > 2) {
+      pushAlert('warning', `Only ${formatGbp(rawRemaining)} left for ${remainingDays} day${remainingDays === 1 ? '' : 's'}. Keep a closer eye on the next few spends.`);
+    } else if (remainingRatio > 0.5 && uniqueDaysSpent >= Math.max(3, Math.ceil(plannedDays * 0.3))) {
+      pushAlert('success', `You're halfway through the budget with plenty left — ${formatGbp(rawRemaining)} remains for future adventures.`);
+    }
+  }
+
+  if (hasExpenses && dailyTarget > 0 && orderedDates.length) {
+    const lastDate = orderedDates[orderedDates.length - 1];
+    const lastTotal = totalsByDate[lastDate];
+    if (lastTotal <= dailyTarget * 0.6) {
+      pushAlert('success', `Yesterday came in at ${formatGbp(lastTotal)} — well under your daily target of ${formatGbp(dailyTarget)}.`);
+    } else if (lastTotal > dailyTarget * 1.3) {
+      pushAlert('warning', `Yesterday hit ${formatGbp(lastTotal)}, about ${formatGbp(lastTotal - dailyTarget)} over target. Adjust today if you can.`);
+    }
+  }
+
   if (!budget) {
     pushAlert('info', 'Set an overall budget to unlock tailored suggestions.');
   }
