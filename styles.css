@@ -23,6 +23,7 @@
   --background: #E6EEF8;
   --surface: #FFFFFF;
   --surface-alt: #EEF2F7;
+  --surface-hover: rgba(148, 163, 184, 0.15);
   --text: #2C3E50;
   --text-secondary: #64748B;
   --text-tertiary: #94A3B8;
@@ -42,14 +43,6 @@
   --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.05), 0 2px 4px rgba(0, 0, 0, 0.08);
   --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.04), 0 4px 6px rgba(0, 0, 0, 0.05);
   --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.05), 0 10px 10px rgba(0, 0, 0, 0.02);
-  
-  /* Category Colors */
-  --cat-accommodation: #9F7AEA;
-  --cat-food: #FF795C;
-  --cat-transport: #3ECF8E;
-  --cat-activities: #4299E1;
-  --cat-shopping: #ED64A6;
-  --cat-other: #718096;
   
   /* Category Colors */
   --cat-accommodation: #8b5cf6;
@@ -73,10 +66,45 @@ body {
   line-height: 1.5;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .logo,
+  .plane-logo__plane,
+  .plane-logo__trails path,
+  .budget-alert,
+  .progress-fill,
+  .day-summary {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
 .app {
   display: grid;
   grid-template-columns: 280px 1fr;
   min-height: 100vh;
+}
+
+.loading {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(255, 255, 255, 0.9);
+  padding: 20px 28px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  z-index: 1000;
+}
+
+.loading.active {
+  display: block;
 }
 
 /* Sidebar Styles */

@@ -33,6 +33,7 @@ let expandedSummaryDate = null;
 let supabaseClient = null;
 let activeShareId = localStorage.getItem(SHARE_STORAGE_KEY) || null;
 let pendingSyncTimer = null;
+let analyticsInteractionsBound = false;
 const newlyAddedExpenseIds = new Set();
 const lastHeroProgress = { percent: null };
 const lastDailyProgress = new Map();
@@ -48,12 +49,21 @@ const ALERT_BADGES = {
   info: 'ℹ',
 };
 
+const gbpFormatter = new Intl.NumberFormat('en-GB', {
+  style: 'currency',
+  currency: 'GBP',
+});
+
+const localFormatterCache = new Map();
+
 document.addEventListener('DOMContentLoaded', () => {
   cacheDomReferences();
   setupMobileMenu();
   setupNavigation();
   setupForm();
   setupEditableFields();
+  setupDailySummariesInteractions();
+  setupAnalyticsDateInteractions();
   setupDataManagement();
   initSyncUI();
   initializeSupabase();
@@ -88,6 +98,7 @@ function cacheDomReferences() {
     exchangeRate: $('.exchange-rate'),
     localSymbol: $('.local-symbol'),
     dailySummaries: $('#dailySummaries'),
+    overallBudgetProgress: $('#overallBudgetProgress'),
     tripProgress: $('#tripProgress'),
     daysUnderBudget: $('#daysUnderBudget'),
     daysOverBudget: $('#daysOverBudget'),
@@ -311,6 +322,62 @@ function setupEditableFields() {
   }
 }
 
+function setupDailySummariesInteractions() {
+  const container = elements.dailySummaries;
+  if (!container || container.dataset.listenersBound === '1') return;
+
+  container.addEventListener('click', (evt) => {
+    const deleteButton = evt.target.closest('.delete-expense');
+    if (deleteButton) {
+      evt.preventDefault();
+      const { expenseId, expenseDate } = deleteButton.dataset;
+      if (expenseDate) {
+        expandedSummaryDate = expenseDate;
+      }
+      if (expenseId) {
+        deleteExpense(Number(expenseId));
+      }
+      return;
+    }
+
+    const editButton = evt.target.closest('.edit-expense');
+    if (editButton) {
+      evt.preventDefault();
+      const { expenseId, expenseDate } = editButton.dataset;
+      if (expenseDate) {
+        expandedSummaryDate = expenseDate;
+      }
+      if (expenseId) {
+        startExpenseEdit(Number(expenseId));
+      }
+    }
+  });
+
+  container.dataset.listenersBound = '1';
+}
+
+function setupAnalyticsDateInteractions() {
+  if (analyticsInteractionsBound) return;
+  analyticsInteractionsBound = true;
+
+  const handleJump = (evt) => {
+    if (!(evt.target instanceof Element)) return;
+    const trigger = evt.target.closest('.analytics-date[data-jump-to-date]');
+    if (!trigger) return;
+    evt.preventDefault();
+    const targetDate = trigger.dataset.jumpToDate;
+    if (targetDate) {
+      jumpToDate(targetDate);
+    }
+  };
+
+  document.addEventListener('click', handleJump);
+  document.addEventListener('keydown', (evt) => {
+    if (evt.key !== 'Enter' && evt.key !== ' ') return;
+    handleJump(evt);
+  });
+}
+
 function attachInlineNumberEditor(element, { step, min, formatValue, parse, save }) {
   element.classList.add('editable');
   element.addEventListener('click', () => {
@@ -412,7 +479,7 @@ function handleAddExpense() {
     entryDate.setDate(startDate.getDate() + offset);
     const iso = entryDate.toISOString().split('T')[0];
 
-    const id = Date.now() + offset;
+    const id = generateExpenseId(offset);
     expensesToAdd.push({
       id,
       amount,
@@ -596,25 +663,16 @@ function updateAnalytics(expenses, countryState, dailyTarget, remaining, rawRema
     elements.daysRemaining.textContent = remainingDays === null ? 'Set days' : `${remainingDays} day${remainingDays === 1 ? '' : 's'}`;
   }
   if (elements.biggestSpendDay) {
-    elements.biggestSpendDay.innerHTML = biggestDay 
-      ? `${formatGbp(biggestDay[1])}<span class="analytics-date" data-jump-to-date="${biggestDay[0]}">${formatDisplayDate(biggestDay[0])}</span>`
+    elements.biggestSpendDay.innerHTML = biggestDay
+      ? `${formatGbp(biggestDay[1])}<span class="analytics-date" role="button" tabindex="0" data-jump-to-date="${biggestDay[0]}">${formatDisplayDate(biggestDay[0])}</span>`
       : '—';
   }
   if (elements.smallestSpendDay) {
-    elements.smallestSpendDay.innerHTML = smallestDay 
-      ? `${formatGbp(smallestDay[1])}<span class="analytics-date" data-jump-to-date="${smallestDay[0]}">${formatDisplayDate(smallestDay[0])}</span>`
+    elements.smallestSpendDay.innerHTML = smallestDay
+      ? `${formatGbp(smallestDay[1])}<span class="analytics-date" role="button" tabindex="0" data-jump-to-date="${smallestDay[0]}">${formatDisplayDate(smallestDay[0])}</span>`
       : '—';
   }
   updateBudgetPositionBanner(hasDailyTarget ? netSavingsFromBudget : null);
-
-  // Add click handlers for date jumping
-  document.querySelectorAll('.analytics-date[data-jump-to-date]').forEach((dateEl) => {
-    dateEl.addEventListener('click', (evt) => {
-      evt.preventDefault();
-      const targetDate = dateEl.getAttribute('data-jump-to-date');
-      jumpToDate(targetDate);
-    });
-  });
 
   const categoryTotals = expenses.reduce((acc, expense) => {
     acc[expense.category] = (acc[expense.category] || 0) + expense.amount;
@@ -918,7 +976,7 @@ function updateBudgetAlerts({
 }
 
 function renderHeroProgress(budget, totalSpent, remaining, status) {
-  const container = document.getElementById('overallBudgetProgress');
+  const container = elements.overallBudgetProgress;
   if (!container) return;
 
   if (!budget) {
@@ -998,10 +1056,11 @@ function renderDailySummaries(countryState) {
     return acc;
   }, {});
 
-  const sortedDates = Object.keys(grouped).sort((a, b) => new Date(b) - new Date(a));
+  const sortedDates = Object.keys(grouped).sort((a, b) => (a < b ? 1 : a > b ? -1 : 0));
   const plannedDays = Math.max(countryState.durationDays || 0, 0);
   const dailyBudget = plannedDays > 0 ? countryState.budget / plannedDays : 0;
   const seenDates = new Set();
+  const fragment = document.createDocumentFragment();
 
   let activeDate = expandedSummaryDate;
   if (activeDate && activeDate !== false && !grouped[activeDate]) {
@@ -1145,30 +1204,10 @@ function renderDailySummaries(countryState) {
 
     wrapper.appendChild(header);
     wrapper.appendChild(list);
-    container.appendChild(wrapper);
+    fragment.appendChild(wrapper);
   });
 
-  container.querySelectorAll('.delete-expense').forEach((button) => {
-    button.addEventListener('click', () => {
-      const { expenseId } = button.dataset;
-      if (!expenseId) return;
-      if (button.dataset.expenseDate) {
-        expandedSummaryDate = button.dataset.expenseDate;
-      }
-      deleteExpense(Number(expenseId));
-    });
-  });
-
-  container.querySelectorAll('.edit-expense').forEach((button) => {
-    button.addEventListener('click', () => {
-      const { expenseId, expenseDate } = button.dataset;
-      if (!expenseId) return;
-      if (expenseDate) {
-        expandedSummaryDate = expenseDate;
-      }
-      startExpenseEdit(Number(expenseId));
-    });
-  });
+  container.appendChild(fragment);
 
   Array.from(lastDailyProgress.keys()).forEach((key) => {
     if (!seenDates.has(key)) {
@@ -1315,7 +1354,8 @@ function jumpToDate(targetDate) {
   
   // Find the day summary element and scroll to it
   setTimeout(() => {
-    const daySummary = document.querySelector(`.day-summary .day-header[aria-expanded="true"]`);
+    const container = elements.dailySummaries;
+    const daySummary = container?.querySelector('.day-summary .day-header[aria-expanded="true"]');
     if (daySummary) {
       daySummary.scrollIntoView({ behavior: 'smooth', block: 'center' });
       
@@ -1567,7 +1607,7 @@ function normaliseIncomingState(payload) {
         durationDays: Number(incoming.durationDays) || countries[countryKey].duration,
         expenses: Array.isArray(incoming.expenses)
           ? incoming.expenses.map((expense, index) => ({
-              id: Number(expense.id) || Date.now() + index,
+              id: Number(expense.id) || generateExpenseId(index),
               amount: Number(expense.amount) || 0,
               description: expense.description || '',
               date: expense.date || todayIsoString(),
@@ -1739,21 +1779,32 @@ function initialiseBlankState() {
   }, {});
 }
 
+function generateExpenseId(offset = 0) {
+  return (Date.now() * 1000) + Math.floor(Math.random() * 1000) + offset;
+}
+
 function formatGbp(value) {
-  return new Intl.NumberFormat('en-GB', {
-    style: 'currency',
-    currency: 'GBP',
-  }).format(Number.isFinite(value) ? value : 0);
+  return gbpFormatter.format(Number.isFinite(value) ? value : 0);
 }
 
 function formatLocal(amount, country) {
-  const { rate, symbol } = countries[country];
-  const localValue = amount * rate;
+  const config = countries[country];
+  if (!config) {
+    return gbpFormatter.format(Number.isFinite(amount) ? amount : 0);
+  }
+  const { rate, symbol } = config;
+  const numericAmount = Number.isFinite(amount) ? amount : 0;
+  const localValue = numericAmount * rate;
   const decimals = rate > 100 ? 0 : 2;
-  const formatted = new Intl.NumberFormat('en-GB', {
-    minimumFractionDigits: decimals,
-    maximumFractionDigits: decimals,
-  }).format(localValue);
+  const cacheKey = `${country}-${decimals}`;
+  if (!localFormatterCache.has(cacheKey)) {
+    localFormatterCache.set(cacheKey, new Intl.NumberFormat('en-GB', {
+      minimumFractionDigits: decimals,
+      maximumFractionDigits: decimals,
+    }));
+  }
+  const formatter = localFormatterCache.get(cacheKey);
+  const formatted = formatter.format(localValue);
   return symbol === 'Rp' || symbol === 'RM' ? `${symbol} ${formatted}` : `${symbol}${formatted}`;
 }
 
