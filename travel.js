@@ -95,6 +95,7 @@ function cacheDomReferences() {
     biggestSpendDay: $('#biggestSpendDay'),
     smallestSpendDay: $('#smallestSpendDay'),
     budgetAlerts: $('#budgetAlerts'),
+    budgetPositionBanner: $('#budgetPositionBanner'),
     categoryBreakdown: $('#categoryBreakdown'),
     exportButton: $('#exportTravel'),
     importInput: $('#importTravelFile'),
@@ -575,6 +576,7 @@ function updateAnalytics(expenses, countryState, dailyTarget, remaining, rawRema
       ? `${formatGbp(smallestDay[1])}<span class="analytics-date" data-jump-to-date="${smallestDay[0]}">${formatDisplayDate(smallestDay[0])}</span>`
       : '—';
   }
+  updateBudgetPositionBanner(rawRemaining, countryState?.budget || 0);
 
   // Add click handlers for date jumping
   document.querySelectorAll('.analytics-date[data-jump-to-date]').forEach((dateEl) => {
@@ -654,6 +656,48 @@ function updateCategoryBreakdown(categoryTotals, totalSpent) {
       lastCategoryProgress.delete(key);
     }
   });
+}
+
+function updateBudgetPositionBanner(rawRemaining, budget) {
+  const banner = elements.budgetPositionBanner;
+  if (!banner) return;
+
+  const resetBanner = () => {
+    banner.className = 'analytics-banner hidden';
+    banner.innerHTML = '';
+  };
+
+  if (!budget || budget <= 0) {
+    resetBanner();
+    return;
+  }
+
+  const normalizedRemaining = Math.round(rawRemaining * 100) / 100;
+  const absRemaining = Math.abs(normalizedRemaining);
+
+  if (absRemaining < 0.5) {
+    banner.className = 'analytics-banner analytics-banner--neutral';
+    banner.innerHTML = `
+      <span class="analytics-banner__icon">ℹ️</span>
+      <span>You're right on budget. Keep your daily spending steady.</span>
+    `;
+    return;
+  }
+
+  if (normalizedRemaining > 0) {
+    banner.className = 'analytics-banner analytics-banner--positive';
+    banner.innerHTML = `
+      <span class="analytics-banner__icon">✅</span>
+      <span>You're ${formatGbp(normalizedRemaining)} ahead of budget — more to pour into unforgettable travels!</span>
+    `;
+    return;
+  }
+
+  banner.className = 'analytics-banner analytics-banner--negative';
+  banner.innerHTML = `
+    <span class="analytics-banner__icon">⚠️</span>
+    <span>You're ${formatGbp(absRemaining)} over budget. Trim a little to get back on track.</span>
+  `;
 }
 
 function updateBudgetAlerts({

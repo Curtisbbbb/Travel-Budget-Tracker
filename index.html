@@ -145,6 +145,7 @@
 
       <section class="form-area">
         <div class="form-panel">
+          <h3 class="section-title">Add an Expense</h3>
           <div class="form-row">
             <label>Category</label>
             <select id="expenseCategory">
@@ -196,13 +197,14 @@
         </div>
 
         <div class="lists-panel">
-          <div class="list-card">
-            <h3>Daily Expenses Summary</h3>
+          <div class="list-card list-card--summary">
+            <h3 class="section-title">Daily Expenses Summary</h3>
             <div id="dailySummaries"></div>
           </div>
           
           <div class="list-card analytics-card">
-            <h3>Budget Analytics</h3>
+            <h3 class="section-title">Budget Analytics</h3>
+            <div id="budgetPositionBanner" class="analytics-banner hidden" role="status"></div>
             <div class="analytics-grid">
               <div class="analytics-item">
                 <span class="analytics-label">Trip Progress</span>
