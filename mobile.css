@@ -609,30 +609,38 @@
   #dailySummaries {
     width: 100%;
     max-width: 100%;
-    overflow-x: hidden;
+    overflow-x: hidden !important;
+    box-sizing: border-box;
   }
   
   .day-summary {
     width: 100%;
     max-width: 100%;
-    overflow: hidden;
+    overflow: hidden !important;
+    margin-bottom: 10px;
+    box-sizing: border-box;
   }
   
   .day-header {
-    padding: 14px;
+    padding: 12px;
     border-radius: 10px;
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
     width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
   }
   
   .day-header-top {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
     width: 100%;
+    max-width: 100%;
+    overflow: hidden;
   }
   
   .day-title {
@@ -642,26 +650,38 @@
   }
   
   .day-title-text {
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 600;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    max-width: 100%;
   }
   
   .day-total {
     flex-shrink: 0;
+    max-width: 40%;
   }
   
   .day-total-amount {
-    font-size: 17px;
+    font-size: 16px;
     font-weight: 700;
     white-space: nowrap;
   }
   
   .day-details {
     width: 100%;
+    max-width: 100%;
+    overflow: hidden !important;
+    box-sizing: border-box;
+    padding: 0 4px;
+  }
+  
+  .day-progress {
+    width: 100%;
+    max-width: 100%;
     overflow: hidden;
+    margin: 8px 0;
   }
   
   .expense-item {
