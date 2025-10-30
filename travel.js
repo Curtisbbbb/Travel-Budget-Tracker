@@ -114,6 +114,7 @@ function cacheDomReferences() {
     sidebar: $('.sidebar'),
     menuToggle: $('.menu-toggle'),
     closeMenu: $('.close-menu'),
+    mobileOverlay: $('.mobile-overlay'),
   };
 
   if (elements.dateInput && !elements.dateInput.value) {
@@ -122,37 +123,56 @@ function cacheDomReferences() {
 }
 
 function setupMobileMenu() {
-  if (!elements.sidebar) return;
+  console.log('Setting up mobile menu...');
+  if (!elements.sidebar) {
+    console.log('No sidebar found');
+    return;
+  }
   
-  // Create or get existing overlay
-  let overlay = document.querySelector('.mobile-overlay');
+  // Get the existing overlay
+  const overlay = document.querySelector('.mobile-overlay');
   if (!overlay) {
-    overlay = document.createElement('div');
-    overlay.className = 'mobile-overlay';
-    document.body.appendChild(overlay);
+    console.log('No overlay found');
+    return;
   }
 
   const toggleMenu = () => {
+    console.log('Toggle menu called');
+    const isActive = elements.sidebar.classList.contains('active');
     elements.sidebar.classList.toggle('active');
     overlay.classList.toggle('active');
-    document.body.style.overflow = elements.sidebar.classList.contains('active') ? 'hidden' : '';
+    document.body.style.overflow = !isActive ? 'hidden' : '';
+    console.log('Menu is now:', !isActive ? 'open' : 'closed');
   };
 
   const closeMenu = () => {
+    console.log('Close menu called');
     elements.sidebar.classList.remove('active');
     overlay.classList.remove('active');
     document.body.style.overflow = '';
   };
 
-  elements.menuToggle?.addEventListener('click', (evt) => {
-    evt.preventDefault();
-    toggleMenu();
-  });
+  if (elements.menuToggle) {
+    console.log('Adding click listener to menu toggle');
+    elements.menuToggle.addEventListener('click', (evt) => {
+      console.log('Menu toggle clicked');
+      evt.preventDefault();
+      evt.stopPropagation();
+      toggleMenu();
+    });
+  } else {
+    console.log('No menu toggle button found');
+  }
 
-  elements.closeMenu?.addEventListener('click', (evt) => {
-    evt.preventDefault();
-    closeMenu();
-  });
+  if (elements.closeMenu) {
+    console.log('Adding click listener to close menu');
+    elements.closeMenu.addEventListener('click', (evt) => {
+      console.log('Close menu clicked');
+      evt.preventDefault();
+      evt.stopPropagation();
+      closeMenu();
+    });
+  }
 
   overlay.addEventListener('click', closeMenu);
   
