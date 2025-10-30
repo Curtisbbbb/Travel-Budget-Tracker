@@ -506,7 +506,7 @@ body {
   padding: 20px 24px;
   background: var(--surface);
   border-radius: var(--radius);
-  box-shadow: var(--shadow);
+  border: 1px solid rgba(148, 163, 184, 0.18);
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -1511,11 +1511,11 @@ button.tiny {
 
 .budget-alerts {
   position: relative;
-  min-height: 48px;
+  min-height: 40px;
   overflow: hidden;
   display: flex;
   align-items: center;
-  padding: 2px 0;
+  padding: 0;
 }
 
 .budget-alerts--inline {
@@ -1550,16 +1550,16 @@ button.tiny {
 
 .budget-alert {
   position: absolute;
-  inset: 2px 4px;
+  inset: 1px 2px;
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 8px 12px;
+  gap: 8px;
+  padding: 6px 10px;
   border-radius: 10px;
   border: 1px solid rgba(51, 65, 85, 0.55);
   background: rgba(15, 23, 42, 0.94);
   color: rgba(226, 232, 240, 0.92);
-  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.35);
+  box-shadow: none;
   opacity: 0;
   transform: translateY(8px);
   animation: budgetAlertFade 420ms ease forwards;
@@ -1928,17 +1928,17 @@ select:focus {
 
 .footer {
   margin-top: auto;
-  padding: 6px 12px 12px;
+  padding: 4px 10px 10px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .sync-status {
-  font-size: 0.8rem;
-  line-height: 1.2;
+  font-size: 0.78rem;
+  line-height: 1.1;
   color: var(--text-secondary);
-  padding: 3px 8px;
+  padding: 2px 7px;
   border-radius: var(--radius-sm);
   background: rgba(148, 163, 184, 0.12);
 }
