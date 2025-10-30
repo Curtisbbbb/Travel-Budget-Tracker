@@ -496,17 +496,25 @@
   
   .category-breakdown {
     width: 100%;
-    overflow: hidden;
+    max-width: 100%;
+    overflow: hidden !important;
+    box-sizing: border-box;
+    padding: 0 4px;
   }
   
   .category-breakdown__row {
     width: 100%;
+    max-width: 100%;
     margin-bottom: 10px;
+    overflow: hidden;
+    box-sizing: border-box;
   }
   
   .category-breakdown__bar {
     width: 100%;
     max-width: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
   }
   
   .budget-stats {
@@ -684,66 +692,83 @@
     margin: 8px 0;
   }
   
-  .expense-item {
-    padding: 12px;
-    font-size: 16px;
-    border-radius: 8px;
-    margin-bottom: 8px;
+    .expense-item {
     width: 100%;
     max-width: 100%;
-    overflow: hidden;
-  }
-  
-  .expense-info {
-    width: 100%;
-    overflow: hidden;
-  }
-  
-  .expense-desc {
-    font-size: 14px;
-    margin-top: 4px;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-  }
-  
-  .category-tag {
-    font-size: 11px;
-    padding: 4px 8px;
-    border-radius: 4px;
-  }
-  
-  .expense-amounts {
-    font-size: 16px;
-    white-space: nowrap;
-  }
-  
-  .amount-gbp,
-  .amount-local {
-    font-size: 16px;
-    white-space: nowrap;
-  }
-  
-  .expense-actions {
-    flex-wrap: nowrap;
-    gap: 8px;
-  }
-  
-  .hero-progress-card {
-    padding: 14px 16px;
-    border-radius: 12px;
-    margin-top: 12px;
-    width: 100%;
+    overflow: hidden !important;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 8px;
     box-sizing: border-box;
   }
   
-  .progress-bar {
+  .expense-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
     width: 100%;
     max-width: 100%;
     overflow: hidden;
   }
   
-  .progress-fill {
+  .expense-details {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    max-width: 65%;
+  }
+  
+  .expense-category {
+    font-size: 15px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+  }
+  
+  .expense-note {
+    font-size: 14px;
+    opacity: 0.9;
+    margin-top: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+  }
+  
+  .expense-amount {
+    flex-shrink: 0;
+    font-size: 16px;
+    font-weight: 700;
+    white-space: nowrap;
+    max-width: 35%;
+    overflow: hidden;
+    text-align: right;
+  }
+  
+  .expense-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 6px;
+    margin-top: 8px;
+    width: 100%;
     max-width: 100%;
+    overflow: hidden;
+  }
+  
+  .expense-actions button {
+    min-width: 65px;
+    padding: 8px 10px;
+    border-radius: 6px;
+    border: none;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    box-sizing: border-box;
   }
   
   /* Better tap targets on mobile */
