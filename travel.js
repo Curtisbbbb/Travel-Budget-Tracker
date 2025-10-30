@@ -543,9 +543,19 @@ function updateAnalytics(expenses, countryState, dailyTarget, remaining, rawRema
     ? dailyTotals.filter((total) => total <= dailyTarget).length
     : 0;
 
-  const savingsFromBudget = dailyTarget > 0
-    ? dailyTotals.reduce((sum, total) => sum + Math.max(dailyTarget - total, 0), 0)
-    : 0;
+  let totalSavings = 0;
+  let totalOverspend = 0;
+  if (dailyTarget > 0) {
+    dailyTotals.forEach((total) => {
+      if (total < dailyTarget) {
+        totalSavings += dailyTarget - total;
+      } else if (total > dailyTarget) {
+        totalOverspend += total - dailyTarget;
+      }
+    });
+  }
+  const hasDailyTarget = dailyTarget > 0 && dailyTotals.length > 0;
+  const netSavingsFromBudget = totalSavings - totalOverspend;
 
   const uniqueDaysSpent = Object.keys(totalsByDate).length;
   const plannedDays = countryState.durationDays || 0;
@@ -562,7 +572,7 @@ function updateAnalytics(expenses, countryState, dailyTarget, remaining, rawRema
 
   if (elements.tripProgress) elements.tripProgress.textContent = `${Math.round(progress)}%`;
   if (elements.daysUnderBudget) elements.daysUnderBudget.textContent = `${daysUnderBudget}`;
-  if (elements.budgetSavings) elements.budgetSavings.textContent = formatGbp(savingsFromBudget);
+  if (elements.budgetSavings) elements.budgetSavings.textContent = formatGbp(netSavingsFromBudget);
   if (elements.daysRemaining) {
     elements.daysRemaining.textContent = remainingDays === null ? 'Set days' : `${remainingDays} day${remainingDays === 1 ? '' : 's'}`;
   }
@@ -576,7 +586,7 @@ function updateAnalytics(expenses, countryState, dailyTarget, remaining, rawRema
       ? `${formatGbp(smallestDay[1])}<span class="analytics-date" data-jump-to-date="${smallestDay[0]}">${formatDisplayDate(smallestDay[0])}</span>`
       : '—';
   }
-  updateBudgetPositionBanner(rawRemaining, countryState?.budget || 0);
+  updateBudgetPositionBanner(hasDailyTarget ? netSavingsFromBudget : null);
 
   // Add click handlers for date jumping
   document.querySelectorAll('.analytics-date[data-jump-to-date]').forEach((dateEl) => {
@@ -658,45 +668,53 @@ function updateCategoryBreakdown(categoryTotals, totalSpent) {
   });
 }
 
-function updateBudgetPositionBanner(rawRemaining, budget) {
+function updateBudgetPositionBanner(netSavings) {
   const banner = elements.budgetPositionBanner;
   if (!banner) return;
 
+  const baseClasses = ['budget-alerts', 'budget-alerts--inline'];
+
   const resetBanner = () => {
-    banner.className = 'analytics-banner hidden';
-    banner.innerHTML = '';
+    banner.className = `${baseClasses.join(' ')} hidden`;
+    banner.innerHTML = '<div class="meta">Log a few expenses to see how your budget is tracking.</div>';
   };
 
-  if (!budget || budget <= 0) {
+  if (netSavings === null) {
     resetBanner();
     return;
   }
 
-  const normalizedRemaining = Math.round(rawRemaining * 100) / 100;
-  const absRemaining = Math.abs(normalizedRemaining);
+  const rounded = Math.round(netSavings * 100) / 100;
+  const absRounded = Math.abs(rounded);
 
-  if (absRemaining < 0.5) {
-    banner.className = 'analytics-banner analytics-banner--neutral';
+  if (absRounded < 0.5) {
+    banner.className = baseClasses.join(' ');
     banner.innerHTML = `
-      <span class="analytics-banner__icon">ℹ️</span>
-      <span>You're right on budget. Keep your daily spending steady.</span>
+      <div class="budget-alert budget-alert--inline info">
+        <span class="budget-alert__badge">ℹ️</span>
+        <span class="budget-alert__message">You're right on budget. Keep your daily spending steady.</span>
+      </div>
     `;
     return;
   }
 
-  if (normalizedRemaining > 0) {
-    banner.className = 'analytics-banner analytics-banner--positive';
+  if (rounded > 0) {
+    banner.className = baseClasses.join(' ');
     banner.innerHTML = `
-      <span class="analytics-banner__icon">✅</span>
-      <span>You're ${formatGbp(normalizedRemaining)} ahead of budget — more to pour into unforgettable travels!</span>
+      <div class="budget-alert budget-alert--inline success">
+        <span class="budget-alert__badge">✓</span>
+        <span class="budget-alert__message">You've saved ${formatGbp(rounded)} from staying under your daily budgets — well done!</span>
+      </div>
     `;
     return;
   }
 
-  banner.className = 'analytics-banner analytics-banner--negative';
+  banner.className = baseClasses.join(' ');
   banner.innerHTML = `
-    <span class="analytics-banner__icon">⚠️</span>
-    <span>You're ${formatGbp(absRemaining)} over budget. Trim a little to get back on track.</span>
+    <div class="budget-alert budget-alert--inline danger">
+      <span class="budget-alert__badge">⚠</span>
+      <span class="budget-alert__message">You're ${formatGbp(absRounded)} over your daily budgets. Trim a little to get back on track.</span>
+    </div>
   `;
 }
 
