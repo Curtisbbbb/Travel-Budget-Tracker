@@ -383,10 +383,10 @@
     overflow-x: hidden !important;
     position: relative;
     gap: 24px;
-    background: rgba(248, 250, 252, 0.9);
-    border-radius: 32px 32px 0 0;
-    border: 1px solid rgba(148, 163, 184, 0.28);
-    box-shadow: 0 24px 45px rgba(15, 23, 42, 0.18);
+    background: transparent;
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
   }
   
   .hero {
@@ -524,6 +524,13 @@
     border: 1px solid rgba(148, 163, 184, 0.18);
     box-shadow: 0 12px 28px rgba(15, 23, 42, 0.1);
   }
+
+  .lists-panel .list-card:first-child {
+    padding: 0;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+  }
   
   .list-card h3 {
     font-size: 18px;
@@ -614,12 +621,27 @@
     display: flex;
     flex-direction: column;
     gap: 6px;
-    background: rgba(15, 23, 42, 0.05);
-    padding: clamp(14px, 5vw, 18px);
-    border-radius: 16px;
-    border: 1px solid rgba(148, 163, 184, 0.24);
-    box-shadow: 0 14px 32px rgba(15, 23, 42, 0.12);
-    backdrop-filter: blur(6px);
+    padding: clamp(16px, 5vw, 20px);
+    border-radius: 18px;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(145deg, rgba(15, 23, 42, 0.15) 0%, rgba(255, 255, 255, 0.9) 55%, rgba(255, 255, 255, 0.75) 100%);
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    box-shadow: 0 18px 32px rgba(15, 23, 42, 0.18);
+  }
+
+  .country-budget .stat-item::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.12), transparent 70%);
+    opacity: 0.6;
+    pointer-events: none;
+  }
+  
+  .country-budget .stat-item > * {
+    position: relative;
+    z-index: 1;
   }
   
   .country-budget .stat-label {
@@ -724,31 +746,17 @@
     overflow: hidden !important;
     margin-bottom: 14px;
     box-sizing: border-box;
-    border-radius: 20px;
-    border: 1px solid rgba(148, 163, 184, 0.26);
-    background: rgba(255, 255, 255, 0.95);
-    box-shadow: 0 18px 38px rgba(15, 23, 42, 0.14);
-    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
-  }
-  
-  .day-summary::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(59, 110, 165, 0.08), rgba(15, 23, 42, 0.04));
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    pointer-events: none;
+    border-radius: 18px;
+    border: 1px solid rgba(148, 163, 184, 0.22);
+    background: #ffffff;
+    box-shadow: 0 12px 28px rgba(15, 23, 42, 0.12);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
   }
   
   .day-summary.expanded {
-    transform: translateY(-2px);
-    box-shadow: 0 24px 48px rgba(15, 23, 42, 0.16);
-    border-color: rgba(59, 110, 165, 0.35);
-  }
-  
-  .day-summary.expanded::before {
-    opacity: 1;
+    transform: translateY(-1px);
+    box-shadow: 0 18px 36px rgba(15, 23, 42, 0.16);
+    border-color: rgba(59, 110, 165, 0.3);
   }
   
   .day-header {
@@ -854,7 +862,7 @@
     overflow: hidden !important;
     box-sizing: border-box;
     padding: clamp(16px, 5vw, 20px) clamp(18px, 5.5vw, 24px) clamp(20px, 6vw, 26px);
-    background: linear-gradient(180deg, rgba(248, 250, 252, 0.75) 0%, rgba(255, 255, 255, 0.92) 100%);
+    background: transparent;
     position: relative;
     z-index: 1;
   }
@@ -950,12 +958,12 @@
   .expense-amounts {
     display: flex;
     flex-direction: column;
-    gap: 6px;
-    padding: 12px 16px;
-    border-radius: 14px;
-    background: rgba(236, 244, 255, 0.75);
-    border: 1px solid rgba(148, 163, 184, 0.35);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    gap: 4px;
+    padding: 0;
+    border-radius: 0;
+    background: transparent;
+    border: none;
+    box-shadow: none;
   }
   
   .expense-amounts .amount-gbp {
@@ -966,13 +974,7 @@
   }
 
   .expense-amounts .amount-gbp::before {
-    content: 'GBP';
-    display: block;
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 0.14em;
-    color: var(--text-secondary);
-    margin-bottom: 2px;
+    display: none;
   }
 
   .expense-amounts .amount-local {
@@ -982,48 +984,43 @@
   }
 
   .expense-amounts .amount-local::before {
-    content: 'Local';
-    display: block;
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 0.14em;
-    color: var(--text-secondary);
-    opacity: 0.8;
-    margin-bottom: 2px;
+    display: none;
   }
   
   .expense-action-buttons {
     display: flex;
     align-items: center;
-    gap: 10px;
+    justify-content: center;
+    gap: 14px;
+    width: 100%;
   }
   
   .expense-action-btn {
-    width: 44px;
-    height: 44px;
-    border-radius: 14px;
-    border: 1px solid rgba(30, 58, 95, 0.22);
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 1px solid rgba(30, 58, 95, 0.25);
     display: inline-flex;
     align-items: center;
     justify-content: center;
     font-size: 1rem;
     font-weight: 600;
     color: var(--primary);
-    background: rgba(226, 235, 247, 0.88);
-    box-shadow: 0 8px 16px rgba(15, 23, 42, 0.16);
-    transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease, color 0.25s ease;
+    background: transparent;
+    box-shadow: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, color 0.2s ease;
   }
 
   .expense-action-btn:hover {
     transform: translateY(-1px) scale(1.02);
-    box-shadow: 0 12px 22px rgba(15, 23, 42, 0.2);
+    box-shadow: 0 8px 18px rgba(15, 23, 42, 0.18);
     background: var(--primary);
     color: #ffffff;
   }
 
   .expense-action-btn:active {
-    transform: translateY(0) scale(0.97);
-    box-shadow: 0 9px 18px rgba(15, 23, 42, 0.18);
+    transform: translateY(0) scale(0.95);
+    box-shadow: 0 6px 12px rgba(15, 23, 42, 0.24);
   }
 
   .expense-action-btn:focus-visible {
