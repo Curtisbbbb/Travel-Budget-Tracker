@@ -86,8 +86,13 @@ body {
   display: flex;
   flex-direction: column;
   gap: 40px;
-  position: relative;
   overflow: hidden;
+}
+
+@media screen and (min-width: 769px) {
+  .sidebar {
+    position: relative;
+  }
 }
 
 .sidebar::before {
@@ -1890,9 +1895,5 @@ select:focus {
 @media (max-width: 768px) {
   .app {
     grid-template-columns: 1fr;
-  }
-  
-  .sidebar {
-    display: none;
   }
 }
