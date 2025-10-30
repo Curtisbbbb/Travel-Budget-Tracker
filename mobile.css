@@ -482,6 +482,9 @@
     max-width: 100%;
     overflow-x: hidden;
     box-sizing: border-box;
+    background: rgba(255, 255, 255, 0.94);
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    box-shadow: 0 12px 28px rgba(15, 23, 42, 0.1);
   }
   
   .lists-panel {
@@ -498,6 +501,9 @@
     max-width: 100%;
     overflow-x: hidden;
     box-sizing: border-box;
+    background: rgba(255, 255, 255, 0.94);
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    box-shadow: 0 12px 28px rgba(15, 23, 42, 0.1);
   }
   
   .list-card h3 {
@@ -521,9 +527,10 @@
   .analytics-item {
     padding: 12px 14px;
     border-radius: 10px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(15, 23, 42, 0.04);
+    border: 1px solid rgba(148, 163, 184, 0.2);
     width: 100%;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
   }
   
   .analytics-item.full-span {
@@ -692,19 +699,41 @@
   }
   
   .day-summary {
+    position: relative;
     width: 100%;
     max-width: 100%;
     overflow: hidden !important;
-    margin-bottom: 12px;
+    margin-bottom: 14px;
     box-sizing: border-box;
-    border-radius: 18px;
-    border: 1px solid rgba(148, 163, 184, 0.24);
-    background: rgba(255, 255, 255, 0.92);
-    box-shadow: 0 16px 36px rgba(15, 23, 42, 0.12);
+    border-radius: 20px;
+    border: 1px solid rgba(148, 163, 184, 0.26);
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 18px 38px rgba(15, 23, 42, 0.14);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  }
+  
+  .day-summary::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(59, 110, 165, 0.08), rgba(15, 23, 42, 0.04));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+  
+  .day-summary.expanded {
+    transform: translateY(-2px);
+    box-shadow: 0 24px 48px rgba(15, 23, 42, 0.16);
+    border-color: rgba(59, 110, 165, 0.35);
+  }
+  
+  .day-summary.expanded::before {
+    opacity: 1;
   }
   
   .day-header {
-    padding: clamp(16px, 5vw, 20px);
+    padding: clamp(18px, 5.5vw, 22px);
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
@@ -712,21 +741,59 @@
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: clamp(10px, 3vw, 14px);
     background: transparent;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .day-header::after {
+    content: '';
+    position: absolute;
+    left: clamp(18px, 5.5vw, 22px);
+    right: clamp(18px, 5.5vw, 22px);
+    bottom: -1px;
+    height: 1px;
+    background: rgba(148, 163, 184, 0.25);
+    transition: opacity 0.2s ease;
+  }
+  
+  .day-summary.expanded .day-header::after {
+    opacity: 0;
   }
   
   .day-header-top {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
     align-items: center;
     gap: 12px;
     width: 100%;
   }
   
   .day-title {
-    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 12px;
     min-width: 0;
+  }
+  
+  .arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(15, 23, 42, 0.08);
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    transition: transform 0.3s ease, background 0.3s ease, color 0.3s ease;
+  }
+  
+  .day-summary.expanded .arrow {
+    transform: rotate(90deg);
+    background: var(--primary);
+    color: white;
   }
   
   .day-title-text {
@@ -737,6 +804,7 @@
   
   .day-title-text strong {
     font-size: 16px;
+    letter-spacing: 0.01em;
   }
   
   .day-title-text .meta {
@@ -744,10 +812,14 @@
     font-size: 12px;
     color: var(--text-secondary);
     margin-top: 4px;
+    letter-spacing: 0.04em;
   }
   
   .day-total {
-    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: flex-end;
     text-align: right;
   }
   
@@ -762,73 +834,104 @@
     max-width: 100%;
     overflow: hidden !important;
     box-sizing: border-box;
-    padding: 0 clamp(16px, 5vw, 20px) clamp(18px, 5vw, 24px);
+    padding: clamp(16px, 5vw, 20px) clamp(18px, 5.5vw, 24px) clamp(20px, 6vw, 26px);
+    background: linear-gradient(180deg, rgba(248, 250, 252, 0.75) 0%, rgba(255, 255, 255, 0.92) 100%);
+    position: relative;
+    z-index: 1;
   }
   
   .day-summary.expanded .day-details {
     display: grid;
-    gap: 12px;
+    gap: clamp(14px, 4vw, 18px);
   }
   
   .day-progress {
     width: 100%;
-    margin: 8px 0 0;
+    margin: 0;
+    padding-top: 4px;
   }
   
   .expense-item {
+    position: relative;
     width: 100%;
     max-width: 100%;
     overflow: hidden !important;
-    padding: clamp(14px, 5vw, 18px);
-    border-radius: 16px;
-    margin-bottom: 12px;
+    padding: clamp(16px, 5.5vw, 22px);
+    border-radius: 18px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    background: rgba(248, 250, 252, 0.9);
-    border: 1px solid rgba(226, 232, 240, 0.9);
+    gap: clamp(12px, 3vw, 16px);
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid rgba(203, 213, 225, 0.6);
+    box-shadow: 0 12px 28px rgba(15, 23, 42, 0.12);
+  }
+  
+  .expense-item::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(15, 23, 42, 0.04));
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    pointer-events: none;
+  }
+  
+  .expense-item:active::before,
+  .expense-item.expense-item--recent::before {
+    opacity: 1;
   }
   
   .expense-info {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
     width: 100%;
+    z-index: 1;
   }
   
   .expense-info .category-tag {
     font-size: 0.78rem;
-    padding: 4px 12px;
+    padding: 4px 14px;
+    border-radius: 999px;
+    box-shadow: 0 6px 14px rgba(15, 23, 42, 0.08);
   }
   
   .expense-info .expense-desc {
-    font-size: 0.95rem;
+    font-size: 1rem;
     color: var(--text);
+    font-weight: 500;
+    letter-spacing: 0.01em;
     word-break: break-word;
   }
   
   .expense-actions {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr auto;
     gap: 12px;
+    align-items: center;
     width: 100%;
+    z-index: 1;
   }
   
   .expense-amounts {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 8px;
-    width: 100%;
+    flex-direction: column;
+    gap: 6px;
+    padding: 12px 14px;
+    border-radius: 14px;
+    background: rgba(15, 23, 42, 0.06);
+    border: 1px solid rgba(148, 163, 184, 0.3);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
   }
   
   .expense-amounts .amount-gbp {
-    font-size: 1rem;
+    font-size: 1.05rem;
     font-weight: 700;
+    color: var(--text);
   }
   
   .expense-amounts .amount-local {
@@ -838,14 +941,48 @@
   
   .expense-action-buttons {
     display: flex;
+    align-items: center;
     gap: 10px;
   }
   
   .expense-action-btn {
-    width: 40px;
-    height: 40px;
-    border-radius: 12px;
-    font-size: 1rem;
+    width: 46px;
+    height: 46px;
+    border-radius: 14px;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: white;
+    background: var(--primary);
+    box-shadow: 0 10px 18px rgba(30, 58, 95, 0.25);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
+  }
+  
+  .expense-action-btn.edit-expense {
+    background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
+  }
+  
+  .expense-action-btn.delete-expense {
+    background: linear-gradient(135deg, #F87171 0%, #EF4444 100%);
+  }
+  
+  .expense-action-btn:focus-visible {
+    outline: 3px solid rgba(59, 130, 246, 0.35);
+    outline-offset: 2px;
+  }
+  
+  .expense-action-btn:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 14px 24px rgba(15, 23, 42, 0.2);
+    filter: brightness(1.05);
+  }
+  
+  .expense-action-btn:active {
+    transform: translateY(0) scale(0.97);
+    box-shadow: 0 10px 18px rgba(15, 23, 42, 0.16);
   }
   
   /* Better tap targets on mobile */
