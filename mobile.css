@@ -301,8 +301,9 @@
   }
   
   .hero h1 {
-    font-size: 1.4rem;
+    font-size: 24px;
     margin-bottom: 16px;
+    font-weight: 700;
   }
   
   .country-budget {
@@ -311,7 +312,7 @@
   }
   
   .topbar {
-    padding: 10px 12px 10px 60px;
+    padding: 10px 12px;
     margin: 0 -12px;
     border-radius: 0;
     position: fixed;
@@ -323,7 +324,7 @@
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     gap: 8px;
   }
   
@@ -333,26 +334,35 @@
     display: flex;
     flex-direction: column;
     gap: 2px;
+    align-items: center;
+    text-align: center;
+    padding: 0 60px;
   }
   
   .main-title h2 {
-    font-size: 1rem;
+    font-size: 16px;
     margin: 0;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    width: 100%;
   }
   
   .main-title .subtitle {
-    font-size: 0.7rem;
+    font-size: 12px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    width: 100%;
   }
   
   .top-actions {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
     gap: 6px;
-    flex-shrink: 0;
+    display: flex;
   }
   
   .action-button {
@@ -385,17 +395,38 @@
   }
   
   .list-card h3 {
-    font-size: 1.1rem;
+    font-size: 18px;
     margin-bottom: 14px;
+    font-weight: 600;
   }
   
   .analytics-grid {
-    grid-template-columns: 1fr;
-    gap: 12px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
   }
   
   .analytics-item {
-    padding: 12px;
+    padding: 14px 12px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .analytics-item.full-span {
+    grid-column: 1 / -1;
+  }
+  
+  .analytics-label {
+    font-size: 0.75rem;
+    display: block;
+    margin-bottom: 6px;
+    opacity: 0.8;
+  }
+  
+  .analytics-value {
+    font-size: 1.2rem;
+    font-weight: 600;
+    display: block;
   }
   
   .budget-stats {
@@ -415,12 +446,12 @@
   }
   
   .stat-label {
-    font-size: 0.75rem;
+    font-size: 13px;
     opacity: 0.8;
   }
   
   .stat-value {
-    font-size: 1.4rem;
+    font-size: 22px;
     font-weight: 600;
   }
   
@@ -435,7 +466,7 @@
   }
   
   .form-row label {
-    font-size: 0.9rem;
+    font-size: 14px;
     font-weight: 600;
     color: var(--text);
   }
@@ -480,6 +511,9 @@
   .day-header {
     padding: 14px 12px;
     border-radius: 10px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
   }
   
   .day-header-top {
@@ -494,7 +528,7 @@
   }
   
   .day-title-text {
-    font-size: 0.95rem;
+    font-size: 16px;
     font-weight: 600;
   }
   
@@ -503,26 +537,35 @@
   }
   
   .day-total-amount {
-    font-size: 1.1rem;
+    font-size: 18px;
     font-weight: 700;
   }
   
   .expense-item {
     padding: 12px;
-    font-size: 0.9rem;
+    font-size: 16px;
     border-radius: 8px;
     margin-bottom: 8px;
   }
   
   .expense-desc {
-    font-size: 0.85rem;
+    font-size: 14px;
     margin-top: 4px;
   }
   
   .category-tag {
-    font-size: 0.7rem;
+    font-size: 12px;
     padding: 3px 8px;
     border-radius: 4px;
+  }
+  
+  .expense-amounts {
+    font-size: 16px;
+  }
+  
+  .amount-gbp,
+  .amount-local {
+    font-size: 16px;
   }
   
   /* Daily Summaries Scroll */
@@ -534,6 +577,11 @@
     margin-bottom: 12px;
     border-radius: 12px;
     overflow: hidden;
+    touch-action: manipulation;
+  }
+  
+  .day-details {
+    touch-action: pan-y;
   }
   
   .hero-progress-card {
