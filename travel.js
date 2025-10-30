@@ -123,14 +123,25 @@ function cacheDomReferences() {
 
 function setupMobileMenu() {
   if (!elements.sidebar) return;
-  const overlay = document.createElement('div');
-  overlay.className = 'mobile-overlay';
-  document.body.appendChild(overlay);
+  
+  // Create or get existing overlay
+  let overlay = document.querySelector('.mobile-overlay');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.className = 'mobile-overlay';
+    document.body.appendChild(overlay);
+  }
 
   const toggleMenu = () => {
     elements.sidebar.classList.toggle('active');
     overlay.classList.toggle('active');
     document.body.style.overflow = elements.sidebar.classList.contains('active') ? 'hidden' : '';
+  };
+
+  const closeMenu = () => {
+    elements.sidebar.classList.remove('active');
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
   };
 
   elements.menuToggle?.addEventListener('click', (evt) => {
@@ -140,10 +151,13 @@ function setupMobileMenu() {
 
   elements.closeMenu?.addEventListener('click', (evt) => {
     evt.preventDefault();
-    toggleMenu();
+    closeMenu();
   });
 
-  overlay.addEventListener('click', toggleMenu);
+  overlay.addEventListener('click', closeMenu);
+  
+  // Store overlay reference for later use
+  elements.mobileOverlay = overlay;
 }
 
 function setupNavigation() {
@@ -153,10 +167,14 @@ function setupNavigation() {
       const { country } = item.dataset;
       if (!country || !countries[country]) return;
       selectCountry(country);
+      
+      // Close mobile menu if it's open
       if (elements.sidebar?.classList.contains('active')) {
         elements.sidebar.classList.remove('active');
         document.body.style.overflow = '';
-        document.querySelector('.mobile-overlay')?.classList.remove('active');
+        if (elements.mobileOverlay) {
+          elements.mobileOverlay.classList.remove('active');
+        }
       }
     });
   });

@@ -71,10 +71,15 @@
   right: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.5);
-  z-index: 900;
+  z-index: 1050;
   opacity: 0;
   transition: opacity 0.3s ease;
   backdrop-filter: blur(2px);
+}
+
+.mobile-overlay.active {
+  display: block;
+  opacity: 1;
 }
 
 /* Form Responsiveness */
@@ -143,6 +148,7 @@
   .menu-toggle {
     display: block;
     -webkit-tap-highlight-color: transparent;
+    z-index: 1200;
   }
   
   .close-menu {
@@ -157,7 +163,7 @@
     bottom: 0;
     width: 100%;
     max-width: 85%;
-    z-index: 1000;
+    z-index: 1100;
     transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
@@ -195,7 +201,7 @@
     top: 0;
     left: 0;
     right: 0;
-    z-index: 100;
+    z-index: 1000;
     background: var(--surface);
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   }
