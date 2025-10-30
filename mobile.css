@@ -544,23 +544,28 @@
   }
   
   .analytics-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
     width: 100%;
+  }
+
+  @media screen and (min-width: 390px) {
+    .analytics-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
   }
   
   .analytics-item {
-    padding: 12px 14px;
-    border-radius: 10px;
-    background: rgba(15, 23, 42, 0.04);
-    border: 1px solid rgba(148, 163, 184, 0.2);
-    width: 100%;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: #FFFFFF;
+    border: 1px solid rgba(226, 232, 240, 0.7);
+    box-shadow: 0 6px 14px rgba(15, 23, 42, 0.06);
   }
   
   .analytics-item.full-span {
-    width: 100%;
+    grid-column: 1 / -1;
   }
   
   .analytics-label {
@@ -752,7 +757,7 @@
   }
   
   .day-header {
-    padding: clamp(18px, 5.5vw, 22px);
+    padding: clamp(14px, 4.5vw, 18px);
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
@@ -769,8 +774,8 @@
   .day-header::after {
     content: '';
     position: absolute;
-    left: clamp(18px, 5.5vw, 22px);
-    right: clamp(18px, 5.5vw, 22px);
+    left: clamp(14px, 4.5vw, 18px);
+    right: clamp(14px, 4.5vw, 18px);
     bottom: -1px;
     height: 1px;
     background: rgba(148, 163, 184, 0.25);
@@ -785,14 +790,14 @@
     display: grid;
     grid-template-columns: auto 1fr auto;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
     width: 100%;
   }
   
   .day-title {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
     min-width: 0;
   }
   
@@ -800,12 +805,12 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 32px;
-    height: 32px;
+    width: 26px;
+    height: 26px;
     border-radius: 50%;
     background: rgba(15, 23, 42, 0.08);
     color: var(--text-secondary);
-    font-size: 0.9rem;
+    font-size: 0.75rem;
     transition: transform 0.3s ease, background 0.3s ease, color 0.3s ease;
   }
   
@@ -816,19 +821,19 @@
   }
   
   .day-title-text {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 600;
     color: var(--text);
   }
   
   .day-title-text strong {
-    font-size: 16px;
+    font-size: 15px;
     letter-spacing: 0.01em;
   }
   
   .day-title-text .meta {
     display: block;
-    font-size: 12px;
+    font-size: 10px;
     color: var(--text-secondary);
     margin-top: 4px;
     letter-spacing: 0.04em;
@@ -837,13 +842,13 @@
   .day-total {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 2px;
     align-items: flex-end;
     text-align: right;
   }
   
   .day-total-amount {
-    font-size: 18px;
+    font-size: 15px;
     font-weight: 700;
   }
   
@@ -853,7 +858,7 @@
     max-width: 100%;
     overflow: hidden !important;
     box-sizing: border-box;
-    padding: clamp(16px, 5vw, 20px) clamp(18px, 5.5vw, 24px) clamp(20px, 6vw, 26px);
+    padding: clamp(12px, 4.5vw, 16px) clamp(14px, 4.5vw, 18px) clamp(16px, 5vw, 20px);
     background: transparent;
     position: relative;
     z-index: 1;
@@ -861,7 +866,7 @@
   
   .day-summary.expanded .day-details {
     display: grid;
-    gap: clamp(14px, 4vw, 18px);
+    gap: clamp(10px, 3vw, 14px);
   }
   
   .day-progress {
@@ -875,15 +880,15 @@
     width: 100%;
     max-width: 100%;
     overflow: hidden !important;
-    padding: clamp(16px, 5.5vw, 22px);
-    border-radius: 18px;
+    padding: clamp(12px, 4.5vw, 16px);
+    border-radius: 14px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    gap: clamp(12px, 3vw, 16px);
+    gap: clamp(10px, 3vw, 12px);
     background: #FFFFFF;
-    border: 1px solid rgba(226, 232, 240, 0.7);
-    box-shadow: 0 12px 24px rgba(15, 23, 42, 0.08);
+    border: 1px solid rgba(226, 232, 240, 0.65);
+    box-shadow: 0 8px 16px rgba(15, 23, 42, 0.06);
   }
   
   .expense-item::before {
@@ -906,20 +911,20 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 10px;
+    gap: 6px;
     width: 100%;
     z-index: 1;
   }
   
   .expense-info .category-tag {
-    font-size: 0.78rem;
-    padding: 4px 14px;
+    font-size: 0.7rem;
+    padding: 3px 12px;
     border-radius: 999px;
     box-shadow: 0 6px 14px rgba(15, 23, 42, 0.08);
   }
   
   .expense-info .expense-desc {
-    font-size: 1rem;
+    font-size: 0.9rem;
     color: var(--text);
     font-weight: 500;
     letter-spacing: 0.01em;
@@ -930,11 +935,11 @@
   .expense-info .expense-desc::before {
     content: 'Note';
     display: block;
-    font-size: 0.7rem;
+    font-size: 0.6rem;
     text-transform: uppercase;
     letter-spacing: 0.14em;
     color: var(--text-secondary);
-    margin-bottom: 4px;
+    margin-bottom: 2px;
   }
   
   .expense-actions {
@@ -950,7 +955,7 @@
   .expense-amounts {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 2px;
     padding: 0;
     border-radius: 0;
     background: transparent;
@@ -959,65 +964,48 @@
   }
   
   .expense-amounts .amount-gbp {
-    font-size: 1.05rem;
+    font-size: 0.95rem;
     font-weight: 700;
     color: var(--text);
     display: block;
   }
 
-  .expense-amounts .amount-gbp::before {
-    display: none;
-  }
-
   .expense-amounts .amount-local {
-    font-size: 0.85rem;
+    font-size: 0.75rem;
     color: var(--text-secondary);
     display: block;
   }
-
-  .expense-amounts .amount-local::before {
-    display: none;
-  }
   
   .expense-action-buttons {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    justify-content: center;
-    gap: 14px;
-    width: 100%;
+    justify-content: flex-end;
+    gap: 10px;
+    width: auto;
   }
   
   .expense-action-btn {
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    border: 1px solid rgba(30, 58, 95, 0.25);
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    border: 1px solid rgba(30, 58, 95, 0.2);
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    font-size: 1rem;
-    font-weight: 600;
+    font-size: 0.85rem;
     color: var(--primary);
     background: transparent;
-    box-shadow: none;
-    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, color 0.2s ease;
+    transition: transform 0.15s ease, background 0.15s ease, color 0.15s ease;
   }
-
+  
   .expense-action-btn:hover {
-    transform: translateY(-1px) scale(1.02);
-    box-shadow: 0 8px 18px rgba(15, 23, 42, 0.18);
+    transform: translateY(-1px);
     background: var(--primary);
     color: #ffffff;
   }
-
+  
   .expense-action-btn:active {
-    transform: translateY(0) scale(0.95);
-    box-shadow: 0 6px 12px rgba(15, 23, 42, 0.24);
-  }
-
-  .expense-action-btn:focus-visible {
-    outline: 3px solid rgba(59, 130, 246, 0.28);
-    outline-offset: 2px;
+    transform: translateY(0);
   }
   
   /* Better tap targets on mobile */
@@ -1128,13 +1116,14 @@
   
   /* Exchange rate display */
   .exchange-rate {
-    font-size: 13px;
-    margin-top: 6px;
-    padding: 10px;
-    border-radius: 8px;
-    background: rgba(59, 130, 246, 0.1);
+    font-size: 12px;
+    margin-top: 4px;
+    padding: 0;
+    border-radius: 0;
+    background: transparent;
     width: 100%;
     box-sizing: border-box;
+    color: var(--text-secondary);
   }
   
   /* Hide scrollbars on mobile but keep functionality */
