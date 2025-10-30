@@ -123,51 +123,35 @@ function cacheDomReferences() {
 }
 
 function setupMobileMenu() {
-  console.log('Setting up mobile menu...');
-  if (!elements.sidebar) {
-    console.log('No sidebar found');
-    return;
-  }
+  if (!elements.sidebar) return;
   
   // Get the existing overlay
   const overlay = document.querySelector('.mobile-overlay');
-  if (!overlay) {
-    console.log('No overlay found');
-    return;
-  }
+  if (!overlay) return;
 
   const toggleMenu = () => {
-    console.log('Toggle menu called');
     const isActive = elements.sidebar.classList.contains('active');
     elements.sidebar.classList.toggle('active');
     overlay.classList.toggle('active');
     document.body.style.overflow = !isActive ? 'hidden' : '';
-    console.log('Menu is now:', !isActive ? 'open' : 'closed');
   };
 
   const closeMenu = () => {
-    console.log('Close menu called');
     elements.sidebar.classList.remove('active');
     overlay.classList.remove('active');
     document.body.style.overflow = '';
   };
 
   if (elements.menuToggle) {
-    console.log('Adding click listener to menu toggle');
     elements.menuToggle.addEventListener('click', (evt) => {
-      console.log('Menu toggle clicked');
       evt.preventDefault();
       evt.stopPropagation();
       toggleMenu();
     });
-  } else {
-    console.log('No menu toggle button found');
   }
 
   if (elements.closeMenu) {
-    console.log('Adding click listener to close menu');
     elements.closeMenu.addEventListener('click', (evt) => {
-      console.log('Close menu clicked');
       evt.preventDefault();
       evt.stopPropagation();
       closeMenu();
